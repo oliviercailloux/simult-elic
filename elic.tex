@@ -1,7 +1,5 @@
 \RequirePackage[l2tabu, orthodox]{nag}
-\RequirePackage{silence}\WarningFilter{newunicodechar}{Redefining Unicode character}
-\documentclass[version=last, pagesize, twoside=off, bibliography=totoc, 14pt, a4paper, french, english]{scrartcl}
-%\documentclass[version=last, pagesize, twoside=semi, DIV=calc, bibliography=totoc, 12pt, a4paper, french, english]{scrartcl}
+\documentclass[version=last, pagesize, twoside=off, bibliography=totoc, DIV=calc, fontsize=14pt, a4paper, french, english]{scrartcl}
 \input{preamble/packages}
 \input{preamble/math_basics}
 \input{preamble/math_mine}
@@ -16,18 +14,27 @@
 %\setlength{\footskip}{9mm}
 
 \begin{document}
-\title{The title}
+\title{Simultaneous elicitation for voting rules}
 \author{Olivier Cailloux}
-\subject{Ze subject}%ok for Beamer. In article mode, appears on the page! Better use hypersetup.
-%\keywords{key, koy}%beamer only
+\author{Stefano Moretti}
+\affil{Université Paris-Dauphine, 
+PSL Research University, 
+CNRS, LAMSADE, 
+75016 PARIS, FRANCE
+}
+\author{Paolo Viappiani\footnote{Authors are currently listed according to alphabetical order.}}
+\affil{CNRS-LIP6 laboratory - Université Pierre-et-Marie-Curie (UPMC),
+4, Place Jussieu 75252 Paris, France
+}
 \makeatletter
 	\hypersetup{
-		pdfsubject={\@subject},
-		pdfkeywords={keyw1, keyw2}
+		pdfsubject={Social choice},
+		pdfkeywords={elicitation, active learning}
 	}
 \makeatother
 \maketitle
 
 \section{Introduction}
+
 \end{document}
 

@@ -31,6 +31,7 @@
 \usepackage{mathtools} %load this before babel!
 	\mathtoolsset{showonlyrefs,showmanualtags}
 
+\usepackage{natbib}%Package frenchb asks to load natbib before babel/frenchb
 \usepackage{babel}%[french, english]: language options should be on the document level
 %suppresses the warning about frenchb not modifying the captions (“—” to “:” in “Figure 1 – Legend”).
 %	\frenchbsetup{AutoSpacePunctuation=false,SuppressWarning=true}% test with false?
@@ -47,11 +48,6 @@
 	\usepackage[textsize=small]{todonotes}
 }{
 }
-\nottoggle{LCpres}{
-%\usepackage{authblk}
-%\renewcommand\Affilfont{\small}
-}{
-}
 \iftoggle{LCpres}{
 	%remove pdfusetitle (implied by beamer)
 	\usepackage{hyperref}
@@ -59,6 +55,14 @@
 % option pdfusetitle must be introduced here, not in hypersetup.
 	\usepackage[pdfusetitle]{hyperref}
 }
+\nottoggle{LCpres}{
+%seems like authblk wants to be later than hyperref, but sooner than silence
+\usepackage{authblk}
+\renewcommand\Affilfont{\small}
+}{
+}
+\usepackage{silence}
+\WarningFilter{newunicodechar}{Redefining Unicode character}
 %breaklinks makes links on multiple lines into different PDF links to the same target.
 %colorlinks (false): Colors the text of links and anchors. The colors chosen depend on the the type of link. In spite of colored boxes, the colored text remains when printing.
 %linkcolor=black: this leaves other links in colors, e.g. refs in green, don't print well.
@@ -89,7 +93,6 @@
 \usepackage{siunitx} %[expproduct=tighttimes, decimalsymbol=comma] ou (plus récent ?) [round-mode=figures, round-precision=2, scientific-notation = engineering]
 \sisetup{detect-all, locale = FR, strict}% to detect e.g. when in math mode (use a math font) - check whether this makes sense with strict
 \usepackage{braket} %for \Set
-\usepackage{natbib}
 \usepackage{doi}
 
 \usepackage{amsmath,amsthm}
