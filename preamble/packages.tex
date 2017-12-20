@@ -26,7 +26,7 @@
 
 \usepackage{etoolbox} %for addtocmd, newtoggle commands
 \newtoggle{LCpres}
-\toggletrue{LCpres}
+\togglefalse{LCpres}
 
 \usepackage{mathtools} %load this before babel!
 	\mathtoolsset{showonlyrefs,showmanualtags}
@@ -48,8 +48,8 @@
 }{
 }
 \nottoggle{LCpres}{
-\usepackage{authblk}
-\renewcommand\Affilfont{\small}
+%\usepackage{authblk}
+%\renewcommand\Affilfont{\small}
 }{
 }
 \iftoggle{LCpres}{
