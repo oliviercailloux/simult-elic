@@ -9,16 +9,22 @@
 \newcommand{\allvoters}{\mathscr{N}}
 \newcommand{\voters}{N}
 \newcommand{\allsystems}{\mathcal{G}}
-\newcommand{\prof}{\mathbf{R}}
-\newcommand{\allprofs}{\mathbfcal{R}}
+\newcommand{\pref}{\boldsymbol{\succeq}^\textbf{c}}%complete pref
+\newcommand{\ppref}{\succeq^\text{p}}%partial pref
+\newcommand{\prof}{(\boldsymbol{\succeq}^\textbf{c}_i)_{i \in N}}
+\newcommand{\profshort}{\boldsymbol{R}^\textbf{c}}
+\newcommand{\pprof}{(\succeq_i^\text{p})_{i \in N}}
+\newcommand{\pprofshort}{R^\text{p}}
+\newcommand{\allprofs}{\mathcal{L}(\alts)^N}%\mathbfcal{R}
+\newcommand{\allpprofs}{\mathcal{O}(\alts)^N}
 \newcommand{\linors}{\mathcal{L}(\alts)}
+\newcommand{\pors}{\mathcal{O}(\alts)}%partial orders
 
-\newcommand{\pbasic}[1]{\prof^{#1}_\epsilon}
-\newcommand{\pelem}[1]{\prof^{#1}_e}
-\newcommand{\pcycl}[1]{\prof^{#1}_c}
-\newcommand{\pcycllong}[1]{\prof^{#1}_{cl}}
-\newcommand{\pinv}[1]{\overline{\prof_{#1}}}
-\newcommand{\dmap}{{\xitsfamily δ}}
+\newcommand{\allsvs}{[0, m-1]^N}%all score-vectors
+\newcommand{\prefsvs}{\triangleright}%strict pref over score-vectors
+\newcommand{\prefsv}{\boldsymbol{\succcurlyeq}^\textbf{c}}%complete pref over score-vectors
+\newcommand{\pprefsv}{\succcurlyeq^\text{p}}%partial pref over score-vectors
+
 %powerset without zero
 \newcommand{\powersetz}[1]{\mathcal{P}_\emptyset(#1)}
 

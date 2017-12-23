@@ -7,12 +7,6 @@
 \input{preamble/draw}
 \input{preamble/acronyms}
 
-%\setbeamertemplate{headline}[singleline]
-
-%printer margin: I take 0.5 inches = 1,27 cm to be safe. 21 cm - (2 × 1.27 cm) = 18.46 cm. 29.7 cm − 0.9 cm − (2 × 1.27 cm) = 26.26 cm
-%\areaset{18.46cm}{26.26cm}
-%\setlength{\footskip}{9mm}
-
 \begin{document}
 \title{Simultaneous elicitation for voting rules}
 \author{Olivier Cailloux}
@@ -35,6 +29,77 @@ CNRS, LAMSADE,
 \maketitle
 
 \section{Introduction}
+In some situations a committee may desire to select winning alternatives using the preferences, over those alternatives, of multiple individuals (called voters). For example, a jury may desire to use the opinions of multiple reviewers to elect the best papers among some given set of papers. We are interested in situations where the committee wants to express preferences on the voting rule (express preferences about justice) and voters express preferences about the order of the alternatives. We assume the committee expresses only one voice: preference about justice is consensual. Voters may have differing opinions however. The voting rule serves to aggregate those different opinions.
+
+We assume the preferences for justice (of the committee) and over alternatives (of the voters) are unknown and obtaining information about them have a cost. This could be because we care about privacy (knowing as few as necessary about other’s preferences might be considered good), because of transmission cost (?), because of cognitive cost or other resources required for someone to make up her preferences (or, in the case of the committee, to come to an agreement). Hence, we are interested in querying as few as possible.
+
+We are interested in solving a given problem, meaning, finding (or getting close to) the set of winning alternatives, given a set of alternatives, a committee and a set of individuals with (well-defined but unknown) preferences. As a bonus however, we also obtain some reusable information about the voting rules the committee appreciates, which might be useful if the procedure has to be applied repeatedly with the same committee.
+
+Here are some notations.
+\begin{description}[font=\normalfont, leftmargin=!, labelwidth=\widthof{The longest label}]
+	\item[$N$] the (finite) set of voters
+	\item[$\alts$] the (finite) set of alternatives, $\card{\alts} = m$
+	\item[$\linors \subseteq \powerset{\alts × \alts}$] the linear orders (complete, transitive, antisymmetric) on $\alts$
+	\item[$\pors \subseteq \powerset{\alts × \alts}$] the partial orders (reflexive, transitive, antisymmetric) on $\alts$
+	\item[$\pref_i \in \linors$] the preference of voter $i$ (called a complete preference)
+	\item[$\ppref_i \in \pors$] a partial preference associated to $i$, representing our knowledge of $\pref_i$
+	\item[$\prof = \profshort$] a profile of complete preferences, called a complete profile
+	\item[$\pprof = \pprofshort$] a profile of partial preferences, called a partial profile
+	\item[$\allprofs$] the set of all complete profiles
+	\item[$\allpprofs$] the set of all partial profiles
+	\item[$\powersetz{\alts}$] the set of all subsets of $\alts$ minus the emptyset
+	\item[$F: \allprofs \rightarrow \powersetz{\alts}$] a voting rule (associates each profile to a non-empty subset of winning alternatives)
+\end{description}
+
+Define a scoring-vector $x$ as an element of $\allsvs$, a mapping of voters to scores, where a score is an integer in $[0, m-1]$. (Intervals are in the natural numbers throughout this article.) As $m$ is less than $10$ in our examples, we write our examples of scoring-vector as concatenated numbers, for example $43$ denotes a scoring-vector mapping the first voter to score $4$ and the second voter to score $3$.
+
+Given a complete profile $\prof$, we can associate each alternative $a$ to its scoring-vector $x_{\prof}(a) \in \allsvs$, by giving, for each voter $i \in N$, as many points to $a$ as the number of alternatives it beats in $\pref_i$. For example, if $i$ puts $a$ last in her ranking $\pref_i$, $x_a$ maps $i$ to $0$. We write $x_a$ instead of $x_{\prof}(a)$ when the profile is clear from the context.
+
+We say that a complete profile contains a scoring-vector iff there is an alternative associated to this scoring-vector by $\prof$. We can now view each complete profile as a set of scoring-vectors.
+We may therefore consider any voting rule $F$ as selecting winning scoring-vectors instead of winning alternatives. In $F$, given a profile $\prof$, we say that a scoring-vector $x$ is among the winners iff $x$ is a scoring-vector associated (by $\prof$) to some alternative that belongs to $F(\prof)$. 
+
+We consider a rule $F$ representing the considerations of justice of the committee: given a complete profile $\prof$, the committee will select a winner among $F(\prof)$ (the tie-breaking is done in a way that cannot be described by $F$, for example using a random selection or other inputs than $\prof$).
+
+Given $F$, we want to obtain a partial ordering $\prefsvs$ that orders scoring-vectors in a way that corresponds intuitively to the notion that $F$ “considers” $x$ as a better scoring-vector than $y$. 
+We will then assume we can obtain information about $\prefsvs$ (for example, by interrogating the committee) and use this to enrich our knowledge of $F$.
+
+We write $\profshort_{xy}$ for a complete profile that contains scoring-vectors $x$ and $y$. Given a rule $F$, we write $\exists (\profshort_{xy} F x)$ to mean that $F(\profshort)$ selects $x$ for some complete profile that contains $x$ and $y$, and $\nexists (\profshort_{xy} F x)$ to negate this proposition, thus, if for all complete profiles $\profshort$ that contain $x$ and $y$, $x$ is not in $F(\profshort)$.
+
+Define binary relations over $\allsvs$ as follows.
+\begin{itemize}
+	\item $x B_> y$ iff $\nexists (\profshort_{xy} F y) ∧ \exists (\profshort_{xy} F x)$
+	\item $x B_\text{b} y$ iff $\exists (\profshort_{xy} F y) ∧ \exists (\profshort_{xy} F x)$ (the letter b stands for “both”)
+	\item $x B_\text{w} y$ iff $x B_> y ∨ x B_\text{b} y$ iff $\exists (\profshort_{xy} F x)$ (the letter w stands for “weak”)
+	\item $x B_\text{n} y$ iff $\nexists (\profshort_{xy} F y) ∧ \nexists (\profshort_{xy} F x)$ (the letter n stands for “neither”)
+	\item $x B^T y$, for any relation $B$, equals the transitive closure of $B$.
+\end{itemize}
+
+We cannot simply equate $B_>$ to the ordering we look for, $\prefsvs$. Observe first that $x B_> y$ is not enough to obtain meaningfully that $x$ is better than $y$ in the sense of an ordering: it could be that $x$ and $y$ are part of a cycle in $B_>$ (or even a cycle in $B_\text{w}$). (Consider $(x = 12) B_> (y = 21) B_> (z = 13) B_> (w = 31) B_> (x = 12)$.) The second inadequacy of $B_>$ is that sometimes, $x > y$ seems intuitively meaningful even though $x$ and $y$ can’t be together in a profile: consider $44$ and $41$. In that case, a plausible interpretation of the intuition is that $44$ is better than a third scoring-vector, itself better than $41$ (and that no cycle happen): consider $44 B_> 33 B_> 41$.
+
+We obtain the following definition: given a rule $F$, $x \prefsvs y$ iff [($x B_> y$) or ($x B_>^T y$ and $x B_n y$)] and not $y B_\text{w}^T x$.
+
+Given $F$ and $\prefsvs$ satisfying order-on-svs, define $F_\prefsvs$ as the rule that selects the maximal elements according to $\prefsvs$, given a complete profile: $x$ wins in $F_\prefsvs(\profshort)$ iff there is no $y$ in $\profshort$ such that $y \prefsvs x$. The rule $F_\prefsvs$ gives us information about the real rule, $F$, in the sense that any real winner is in the winners selected by $F_\prefsvs$.
+\begin{fact}
+	Given $F$ and $\prefsvs$ satisfying order-on-svs, $\forall \prof: F(\prof) \subseteq F_\prefsvs(\prof)$.
+\end{fact}
+\begin{proof}
+	Consider $\prof$ and assume $y$ does not win in $F_\prefsvs(\prof)$. We show that $y$ does not win in $F(\prof)$. We know that $y$ is dominated by some $x$ in $\prof$, thus $x \prefsvs y$. By order-on-svs, either $x B_> y$ or $x B_n y$, and in both cases we obtain that $y$ does not win in $F(\prof)$.
+\end{proof}
+
+Our relation $\prefsvs$ provides a useful basis for queries because we know it is transitive. A few questions can therefore bring “free” information, by computing the transitive closure of our knowledge so far.
+\begin{fact}
+	Given $F$ and $\prefsvs$ satisfying order-on-svs, $\prefsvs$ is transitive.
+\end{fact}
+
+Define a binary relation $\sim$ as : $x \sim y$ iff $x$ and $y$ compare similarly to all other scoring-vectors, according to $\prefsvs$: $x \sim y$ iff $x \prefsvs z ⇔ y \prefsvs z$, $\forall z \in \allsvs$.
+
+Define $\prefsv = \prefsvs ∨ \sim$. This is a partial preorder.
+
+A simpler way to obtain a relation $\prefsvs$ useful for queries, adopted in a different article, is to assume that the committee has such a relation “in mind”, and that this relation is a complete preorder. But this puts a restriction on $F$, as it has to be compatible with such a way of thinking. Furthermore, it may be considered unclear what “having a relation in mind” mean in this context, if it is not precisely equated to conditions on $F$ as done here. The current approach gets us closer to a behavioral perspective, and might be easier to include in more general elicitation procedures about voting rules.
+
+We assume we can observe $\prefsvs$ and $\sim$: provided with a pair $x, y$, we can know weather $x \prefsvs y$, $y \prefsvs x$, $x \sim y$, or none of those.
+
+Finally, we can extend the domain of a voting rule to all partial profiles instead of only complete profiles. Given a rule $F$, define the robust equivalent rule as $F^\text{robust}: \pors → \powersetz{\alts}$ which selects all possible winners given the partial profile, thus, an alternative is in $F^\text{robust}(\pprof)$ if there exists a complete profile $\prof$ that is a completion of $\pprof$ (meaning that for each $i$, $\pref_i$ is a completion of $\ppref_i$) for which $F(\prof)$ selects that alternative. We will write $F$ instead of $F^\text{robust}$.
 
 \end{document}
 

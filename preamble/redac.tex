@@ -1,5 +1,7 @@
 \definecolor{darkgreen}{rgb}{0,0.6,0}
-\newcommand{\commentOC}[1]{{\small\color{blue}{\selectlanguage{french}$\big[$OC: #1$\big]$}}}
+\newcommand{\commentOC}[1]{{\small\color{blue}{\selectlanguage{french}$\big[$OC : #1$\big]$}}}
+\newcommand{\commentSM}[1]{{\small\color{red}{\selectlanguage{french}$\big[$SM : #1$\big]$}}}
+\newcommand{\commentPV}[1]{{\small\color{darkgreen}{\selectlanguage{french}$\big[$PV : #1$\big]$}}}
 %\newcommand{\commentOC}[1]{{\selectlanguage{french}{\todo{OC : #1}}}}
 %Or: \todo[color=green!40]
 \newcommand{\innote}[1]{{\scriptsize{#1}}}
@@ -25,12 +27,18 @@
 \theoremstyle{remark}
 	\newtheorem{examplex}{Example}
 	\newtheorem{remarkx}{Remark}
+	\newtheorem{factx}{Fact}
 
 %trickery allowing use of \qedhere and the like.
 \newenvironment{example}{
 	\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\examplex
 }{
 	\popQED\endexamplex
+}
+\newenvironment{fact}{
+	\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\factx
+}{
+	\popQED\endfactx
 }
 \newenvironment{remark}{
 	\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\remarkx
@@ -110,8 +118,12 @@
 \newunicodechar{≥}{\ensuremath{\geq}}
 \newunicodechar{→}{\ifmmode\rightarrow\else\textrightarrow\fi}
 \newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
 \newunicodechar{∪}{\cup}
 \newunicodechar{∩}{\cap}
+\newunicodechar{∧}{\land}
+\newunicodechar{∨}{\lor}
 \newunicodechar{¬}{\ifmmode\lnot\else\textlnot\fi}
 \newunicodechar{…}{\ifmmode\ldots\else\textellipsis\fi}
+\newunicodechar{×}{\ifmmode\times\else\texttimes\fi}
 
