@@ -5,7 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{newunicodechar}%able to use e.g. → or ≤ in source
 \usepackage{lmodern}%has more characters such as ligatures, permit copy from resulting PDF.
-\usepackage{textcomp}%useful for redefining → and ¬ and … (otherwise seems to attempt to use \textrightarrow and the like but are not defined)
+\usepackage{textcomp}%useful for redefining → and ¬ and … (otherwise seems to attempt to use \textrightarrow and the like but are not defined)https://github.com/oliviercailloux/JLP
 % solves bug in lmodern, https://tex.stackexchange.com/a/261188/
 \DeclareFontShape{OMX}{cmex}{m}{n}{
   <-7.5> cmex7
@@ -97,6 +97,7 @@
 
 \usepackage{amsmath,amsthm}
 \usepackage{amssymb}% for \mathbb{R}
+\usepackage{bm}%“The \boldsymbol command is obtained preferably by using the bm package, which provides a newer, more powerful version than the one provided by the amsmath package. Generally speaking, it is ill-advised to apply \boldsymbol to more than one symbol at a time.” — AMS Short math guide. “If no bold font appears to be available for a particular symbol, \bm will use ‘poor man’s bold’” — bm
 % \usepackage{amsfonts} %not required?
 % \usepackage{dsfont} %for what?
 

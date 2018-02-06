@@ -9,10 +9,10 @@
 \newcommand{\allvoters}{\mathscr{N}}
 \newcommand{\voters}{N}
 \newcommand{\allsystems}{\mathcal{G}}
-\newcommand{\pref}{\boldsymbol{\succeq}^\textbf{c}}%complete pref
+\newcommand{\pref}{\boldsymbol{\succeq}^\textbf{r}}%real, complete pref
 \newcommand{\ppref}{\succeq^\text{p}}%partial pref
-\newcommand{\prof}{(\boldsymbol{\succeq}^\textbf{c}_i)_{i \in N}}
-\newcommand{\profshort}{\boldsymbol{R}^\textbf{c}}
+\newcommand{\prof}{(\boldsymbol{\succeq}^\textbf{r}_i)_{i \in N}}
+\newcommand{\profshort}{\boldsymbol{R}^\textbf{r}}
 \newcommand{\pprof}{(\succeq_i^\text{p})_{i \in N}}
 \newcommand{\pprofshort}{R^\text{p}}
 \newcommand{\allprofs}{\mathcal{L}(\alts)^N}%\mathbfcal{R}
@@ -21,12 +21,22 @@
 \newcommand{\pors}{\mathcal{O}(\alts)}%partial orders
 
 \newcommand{\allsvs}{[0, m-1]^N}%all score-vectors
-\newcommand{\prefsvs}{\triangleright}%strict pref over score-vectors
-\newcommand{\prefsv}{\boldsymbol{\succcurlyeq}^\textbf{c}}%complete pref over score-vectors
-\newcommand{\pprefsv}{\succcurlyeq^\text{p}}%partial pref over score-vectors
+\usepackage{pdfrender}
+\newcommand*{\boldgreek}[1]{%
+  \textpdfrender{%
+    TextRenderingMode=FillStroke,%
+    LineWidth=.35pt,%
+  }{#1}%
+}
+%Almost good: $x \text{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.35pt}{$\succcurlyeq$}\textsuperscript{\textbf{r}}} y$.
+%Also: $x \textpdfrender{TextRenderingMode=FillStroke,LineWidth=.35pt}{\succcurlyeq} y$.
 
-%powerset without zero
-\newcommand{\powersetz}[1]{\mathcal{P}_\emptyset(#1)}
+%\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.35pt}{$\succcurlyeq$}\textsuperscript{\textbf{r}}
+%\newcommand{\prefsv}{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.35pt}{\succcurlyeq}^\textbf{r}}%pref over score-vectors
+\newcommand{\prefsv}{\text{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.15pt}{$\succcurlyeq$}\textsuperscript{\textbf{r}}}}%pref over score-vectors
+\newcommand{\sprefsv}{{\boldsymbol{\succ}^\textbf{r}}}%strict pref over score-vectors
+\newcommand{\iprefsv}{\boldsymbol{\approx}^\textbf{r}}%indiff, pref over score-vectors
+\newcommand{\pprefsv}{\succcurlyeq^\text{p}}%pref over score-vectors: our approximation
 
 %logic atom
 %⟼ (long)

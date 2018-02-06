@@ -127,3 +127,34 @@
 \newunicodechar{…}{\ifmmode\ldots\else\textellipsis\fi}
 \newunicodechar{×}{\ifmmode\times\else\texttimes\fi}
 
+\DeclareFontFamily{U}{MnSymbolD}{}
+\DeclareFontShape{U}{MnSymbolD}{m}{n}{
+    <-6>  MnSymbolD5
+   <6-7>  MnSymbolD6
+   <7-8>  MnSymbolD7
+   <8-9>  MnSymbolD8
+   <9-10> MnSymbolD9
+  <10-12> MnSymbolD10
+  <12->   MnSymbolD12}{}
+\DeclareFontShape{U}{MnSymbolD}{b}{n}{
+    <-6>  MnSymbolD-Bold5
+   <6-7>  MnSymbolD-Bold6
+   <7-8>  MnSymbolD-Bold7
+   <8-9>  MnSymbolD-Bold8
+   <9-10> MnSymbolD-Bold9
+  <10-12> MnSymbolD-Bold10
+  <12->   MnSymbolD-Bold12}{}
+\DeclareSymbolFont{MnSyD}{U}{MnSymbolD}{m}{n}
+\SetSymbolFont{MnSyD}{bold}{U}{MnSymbolD}{b}{n}
+
+%\DeclareMathSymbol\prec{\mathrel}{MnSyD}{"68}
+%\DeclareMathSymbol\succ{\mathrel}{MnSyD}{"69}
+%\DeclareMathSymbol\preceq{\mathrel}{MnSyD}{"6A}
+%\DeclareMathSymbol\succeq{\mathrel}{MnSyD}{"6B}
+%\DeclareMathSymbol\preccurlyeq{\mathrel}{MnSyD}{"6C}
+%\DeclareMathSymbol\succcurlyeq{\mathrel}{MnSyD}{"6D}
+%\DeclareMathSymbol\precsim{\mathrel}{MnSyD}{"6E}
+%\DeclareMathSymbol\succsim{\mathrel}{MnSyD}{"6F}
+%\DeclareMathSymbol\precapprox{\mathrel}{MnSyD}{"70}
+%\DeclareMathSymbol\succapprox{\mathrel}{MnSyD}{"71}
+
