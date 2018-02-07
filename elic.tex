@@ -51,7 +51,7 @@ Here are some notations. In those notations, the relations in bold suffixed with
 	\item[$F: \allprofs \rightarrow \powersetz{\alts}$] a voting rule (associates each complete profile to a non-empty subset of winning alternatives)
 \end{description}
 
-Throughout the article we consider defined a rule $F$ representing the considerations of justice of the committee: given a complete profile $\prof$, the committee will select a winner among $F(\prof)$ (the tie-breaking is done in a way that cannot be described by $F$, for example using a random selection or other inputs than $\prof$). When we do not specify $F$ it is implied we talk about the $F$ that describes the committee preference for justice. (Note that we use the word justice in order to distinguish clearly those preferences from the ones of the voters, that compare alternatives. We do not assume that the preferences of the committee match some philosophical or common-sense meaning of justice, nor do we try to define those concepts.)
+Throughout the article we consider defined a rule $G$ representing the considerations of justice of the committee: given a complete profile $\prof$, the committee will select a winner among $G(\prof)$ (the tie-breaking is done in a way that cannot be described by $G$, for example using a random selection or other inputs than $\prof$). When talking about some generic voting rule we use the letter $F$, when we do not specify $F$ it is implied we talk about the $F=G$ that describes the committee preference for justice. (Note that we use the word justice in order to distinguish clearly those preferences from the ones of the voters, that compare alternatives. We do not assume that the preferences of the committee match some philosophical or common-sense meaning of justice, nor do we try to define those concepts.)
 
 We can extend the domain of a voting rule to all partial profiles instead of only complete profiles. Given a rule $F$, define the robust equivalent rule as $F^\text{robust}: \pors → \powersetz{\alts}$ which selects all possible winners given the partial profile, thus, an alternative is in $F^\text{robust}(\pprof)$ if there exists a complete profile $\prof$ that is a completion of $\pprof$ (meaning that for each $i$, $\pref_i$ is a completion of $\ppref_i$) for which $F(\prof)$ selects that alternative. We will write $F$ instead of $F^\text{robust}$.
 
@@ -118,26 +118,26 @@ Given a complete profile $\prof$, we can associate each alternative $a$ to its s
 \end{figure}
 
 
-We say that a complete profile $\prof$ contains a scoring-vector iff there is an alternative associated to this scoring-vector by $\prof$. We can now view each complete profile as a set of scoring-vectors.
-We may therefore consider any voting rule $F$ as selecting winning scoring-vectors instead of winning alternatives. In $F$, given a profile $\prof$, we say that a scoring-vector $x$ is among the winners iff $x$ is a scoring-vector associated (by $\prof$) to some alternative that belongs to $F(\prof)$. 
+We say that a complete profile $\prof$ contains a scoring-vector iff there is an alternative associated to this scoring-vector by $\prof$. We can now view each complete profile as mapping alternatives to scoring-vectors.
+We may therefore consider any voting rule $F$ as selecting winning scoring-vectors instead of winning alternatives. Given a profile $\prof$ and a rule $F$, we say that a scoring-vector $x$ is among the winners (of $F$) iff $x$ is a scoring-vector associated (by $\prof$) to some alternative that belongs to $F(\prof)$. 
 
-We want to define a partial ordering $\sprefsv$ that orders scoring-vectors in a way that corresponds intuitively to the notion that $F$ “considers” $x$ as a better scoring-vector than $y$. 
-We will then assume we can obtain information about $\sprefsv$ (for example, by interrogating the committee) and use this to enrich our knowledge of $F$.
+We now want to define a partial ordering $\sprefsv$ that orders scoring-vectors in a way that corresponds intuitively to the notion that $G$ “considers” $x$ as a better scoring-vector than $y$. 
+We will then assume we can obtain information about $\sprefsv$ (for example, by interrogating the committee) and use this to enrich our knowledge of $G$.
 
 We write $\profshort_{xy}$ for a complete profile that contains scoring-vectors $x$ and $y$. Given a rule $F$, we write $\exists (\profshort_{xy} F x)$ to mean that $F(\profshort)$ selects $x$ as one of the winners for some complete profile $\profshort$ that contains $x$ and $y$, and $\nexists (\profshort_{xy} F x)$ to negate this proposition, thus, if for all complete profiles $\profshort$ that contain $x$ and $y$, $x$ is not in $F(\profshort)$.
 
 Define binary relations over $\allsvs$ as follows.
 \begin{itemize}
-	\item $x B_> y$ iff $\nexists (\profshort_{xy} F y) ∧ \exists (\profshort_{xy} F x)$
-	\item $x B_\text{b} y$ iff $\exists (\profshort_{xy} F y) ∧ \exists (\profshort_{xy} F x)$ (the letter b stands for “both”)
-	\item $x B_\text{n} y$ iff $\nexists (\profshort_{xy} F y) ∧ \nexists (\profshort_{xy} F x)$ (the letter n stands for “neither”)
-	\item $x B_\text{w} y$ iff $x B_> y ∨ x B_\text{b} y$ iff $\exists (\profshort_{xy} F x)$ (the letter w stands for “weak”)
+	\item $x B_> y$ iff $\nexists (\profshort_{xy} G y) ∧ \exists (\profshort_{xy} G x)$
+	\item $x B_\text{b} y$ iff $\exists (\profshort_{xy} G y) ∧ \exists (\profshort_{xy} G x)$ (the letter b stands for “both”)
+	\item $x B_\text{n} y$ iff $\nexists (\profshort_{xy} G y) ∧ \nexists (\profshort_{xy} G x)$ (the letter n stands for “neither”)
+	\item $x B_\text{w} y$ iff $x B_> y ∨ x B_\text{b} y$ iff $\exists (\profshort_{xy} G x)$ (the letter w stands for “weak”)
 	\item $x B^T y$, for any relation $B$, equals the transitive closure of $B$.
 \end{itemize}
 
 We cannot simply equate $B_>$ to the ordering we look for, $\sprefsv$. Observe first that $x B_> y$ is not enough to obtain meaningfully that $x$ is better than $y$ in the sense of an ordering: it could be that $x$ and $y$ are part of a cycle in $B_>$ (or even a cycle in $B_\text{w}$). (Consider $(x = 12) B_> (y = 21) B_> (z = 13) B_> (w = 31) B_> (x = 12)$.) The second inadequacy of $B_>$ is that sometimes, $x > y$ seems intuitively meaningful even though $x$ and $y$ can’t be together in a profile: consider $44$ and $41$. In that case, a plausible interpretation of the intuition is that $44$ is better than a third scoring-vector, itself better than $41$ (and that no cycle happen): consider $44 B_> 33 B_> 41$.
 
-We obtain the following definition relating the relation $\sprefsv$ and the rule $F$: $x \sprefsv y$ iff [($x B_> y$) or ($x B_>^T y$ and $x B_n y$)] and not $y B_\text{w}^T x$.
+We obtain the following definition relating the relation $\sprefsv$ and the rule $G$: $x \sprefsv y$ iff [($x B_> y$) or ($x B_>^T y$ and $x B_n y$)] and not $y B_\text{w}^T x$.
 
 Define a binary relation $\iprefsv$ as : $x \iprefsv y$ iff $x$ and $y$ compare similarly to all other scoring-vectors, according to $\sprefsv$: $x \iprefsv y$ iff $x \sprefsv z ⇔ y \sprefsv z$ and $z \sprefsv x ⇔ z \sprefsv y$, $\forall z \in \allsvs$.
 
@@ -151,19 +151,19 @@ The relation $\prefsv$ provides a useful basis for queries because we know it is
 	The reader can check that $\sprefsv$ is a strict partial order (irreflexive and transitive). The result follows from this fact and the definition of $\iprefsv$ \citep{fishburn_utility_1970}.
 \end{proof}
 
-Assume we are able to obtain $\pprefsv \subseteq \prefsv$. Define our approximation of $F$, $F_{\pprefsv}$, as the rule that selects the maximal elements according to $\pprefsv$, given a complete profile: $x$ wins in $F_{\pprefsv}(\profshort)$ iff there is no $y$ in $\profshort$ such that $y \pprefsv x$. The rule $F_{\pprefsv}$ gives us information about the real rule, $F$, in the sense that any real winner is in the winners selected by $F_{\pprefsv}$.
+Assume we are able to obtain $\pprefsv \subseteq \prefsv$. Define our approximation of $G$, $G_{\pprefsv}$, as the rule that selects the maximal elements according to $\pprefsv$, given a complete profile: $x$ wins in $G_{\pprefsv}(\profshort)$ iff there is no $y$ in $\profshort$ such that $y \pprefsv x$. The rule $G_{\pprefsv}$ gives us information about the real rule, $G$, in the sense that any real winner is in the winners selected by $G_{\pprefsv}$.
 \begin{fact}
-	Given $\pprefsv \subseteq \prefsv$, $\forall \profshort: F(\profshort) \subseteq F_{\pprefsv}(\profshort)$.
+	Given $\pprefsv \subseteq \prefsv$, $\forall \profshort: G(\profshort) \subseteq G_{\pprefsv}(\profshort)$.
 \end{fact}
 \begin{proof}
-	Consider $\profshort$ and assume $y$ does not win in $F_{\pprefsv}(\profshort)$. We show that $y$ does not win in $F(\profshort)$. We know that $y$ is dominated by some $x$ in $\profshort$, thus $x \pprefsv y$ and both $x$ and $y$ are in $\profshort$. Because $x \pprefsv y$, $x \prefsv y$, thus either $x B_> y$ or $x B_n y$, and in both cases we obtain that $y$ does not win in $F(\profshort)$.
+	Consider $\profshort$ and assume $y$ does not win in $G_{\pprefsv}(\profshort)$. We show that $y$ does not win in $G(\profshort)$. We know that $y$ is dominated by some $x$ in $\profshort$, thus $x \pprefsv y$ and both $x$ and $y$ are in $\profshort$. Because $x \pprefsv y$, $x \prefsv y$, thus either $x B_> y$ or $x B_n y$, and in both cases we obtain that $y$ does not win in $G(\profshort)$.
 \end{proof}
 
-A simpler way to obtain a preorder over $\allsvs$ useful for queries, adopted in a different article \citep{cailloux_eliciting_2014}, is to assume that the committee has such a relation “in mind”, and that this relation is a complete preorder. But this puts a restriction on $F$, as it has to be entirely compatible with such a way of thinking. Furthermore, it may be considered unclear what “having a relation in mind” mean in this context, if it is not precisely equated to conditions on $F$ as done here. The current approach also might be easier to include in more general elicitation procedures about voting rules.
+A simpler way to obtain a preorder over $\allsvs$ useful for queries, adopted in a different article \citep{cailloux_eliciting_2014}, is to assume that the committee has such a relation “in mind”, and that this relation is a complete preorder. But this puts a restriction on $G$, as it has to be entirely compatible with such a way of thinking. Furthermore, it may be considered unclear what “having a relation in mind” mean in this context, if it is not precisely equated to conditions on $G$ as done here. The current approach also might be easier to include in more general elicitation procedures about voting rules.
 
-\commentOC{On pourrait peut-être explorer la relation entre $F$ et $\prefsv$, voir la remarque ci-dessous.}
+\commentOC{On pourrait peut-être explorer la relation entre $G$ et $\prefsv$, voir la remarque ci-dessous.}
 
-Remark that there are two properties in particular that we need, about $\prefsv$ and the relationship between $\prefsv$ and $F$: $\prefsv$ is a preorder, and $F \subseteq F_{\prefsv}$. Our definition of $\prefsv$, given $F$, permits to obtain the properties we want. However, we could relax our demands about $\prefsv$ and still obtain the desired properties. Consider as an example $m = 3$, one voter, and the pareto-compatible rule, which thus selects always the best ranked alternative, equivalently, which selects the scoring-vector $3$ as sole winner. Observe that $F$ determines according to our definitions a preorder where the scoring-vector $2$ is indifferent to $1$ (because both are dominated by $3$, and this is all that matters to $F$). Assume the committee tells us on the contrary that $2 \sprefsv 1$. We can still obtain the properties we want, although it contradicts our definition of $\sprefsv$.
+Remark that there are two properties in particular that we need, about $\prefsv$ and the relationship between $\prefsv$ and $G$: $\prefsv$ is a preorder, and $G \subseteq G_{\prefsv}$. Our definition of $\prefsv$, given $G$, permits to obtain the properties we want. However, we could relax our demands about $\prefsv$ and still obtain the desired properties. Consider as an example $m = 3$, one voter, and the pareto-compatible rule, which thus selects always the best ranked alternative, equivalently, which selects the scoring-vector $3$ as sole winner. Observe that $G$ determines according to our definitions a preorder where the scoring-vector $2$ is indifferent to $1$ (because both are dominated by $3$, and this is all that matters to $G$). Assume the committee tells us on the contrary that $2 \sprefsv 1$. We can still obtain the properties we want, although it contradicts our definition of $\sprefsv$.
 
 \section{Characterisation of scoring-vector rules}
 We define the class of rules that can be described as maximizing a preorder over scoring-vectors as preorder-based rules: a rule $F$ is a preorder-based rule iff for some preorder $\prefsv$ over $\allsvs$, $F = F_{\prefsv}$. A sub-class of this class is the class of weak-order based rules, corresponding to the case where $\prefsv$ is a weak-order.
@@ -172,14 +172,35 @@ We define the class of rules that can be described as maximizing a preorder over
 
 \commentOC{Il pourrait être intéressant de poursuivre cette analyse. Et peut-être même utile pour une élicitation efficace ?}
 
-\section{Simultaneous elicitation}
-We assume we can observe $\sprefsv$ and $\iprefsv$: provided with a pair $x, y$, we can know weather $x \sprefsv y$, $y \sprefsv x$, $x \iprefsv y$, or none of those.
+\section{Elicitation of the sense of justice only}
+We assume we can observe $\sprefsv$ and $\iprefsv$: provided with a pair $x, y$, we can know whether $x \sprefsv y$, $y \sprefsv x$, $x \iprefsv y$, or none of those.
 
 We start by assuming that $\prefsv$ is a weak-order (a complete preorder), thus “none of those” does not happen under this assumption.
 
 We call a committee query a question in the form of a pair of scoring-vectors, to which we obtain as answer: $x \sprefsv y$, $y \sprefsv x$, or $x \iprefsv y$. We assume no noise in the answers: the answer we get conforms to the real relation $\prefsv$ as defined above.
 We keep track of those answers by way of building iteratively a preorder $\pprefsv$.
 
+We assume here that $\prof$ is not defined: we are interested in fully eliciting the preference for justice of the committee, meaning, the function $G$, so that it can then be applied to any profile when they later arise. Note that we assume that the number of alternatives and voters are fixed (this follows from our definition of $G$).
+
+We consider given a probability distribution $P^r$ over the complete profiles: $\sum_{\profshort \in \allprofs} \probprofs(\profshort) = 1$.
+
+Define the quality $V_{\pprefsv}$ of our current approximation $\pprefsv$ as follows: $V_{\pprefsv} = \sum_{\profshort \in \allprofs} \probprofs(\profshort) \card{F_{\pprefsv}(\profshort)}$.
+
+As further simplification hypotheses, we assume for now an impartial culture, thus all profiles are equally likely ($\probprofs$ is uniform); and we consider that the real rule $G$ is resolute, thus $\card{G(\profshort)}=1, \forall \profshort \in \allprofs$. These simplifications imply that $V_{\pprefsv} = \frac{1}{\card{\allprofs}} \card{F_{\pprefsv}(\profshort)}$ and that $V_{\pprefsv} = 1 ⇔ F_{\pprefsv} = G$.
+
+Define $\probsvs_{\pprefsv}(x \sprefsv y)$ as our estimation, given our knowledge $\pprefsv$, of the probability that the committee answers $x \sprefsv y$ (this depends on some probability estimate over the set of possible weak-orders over scoring-vectors, probability estimate which in turn depends on $\pprefsv$, but which we do not need to make explicit for now). We define similarly $\probsvs_{\pprefsv}(x \iprefsv y)$.
+
+We define the quality of asking a question of comparison of $x$ and $y$ as $q(x, y) = \probsvs_{\pprefsv}(x \sprefsv y) V_{\pprefsv ∪ \{(x, y)\}} + \probsvs_{\pprefsv}(y \sprefsv x) V_{\pprefsv ∪ \{(y, x)\}} + \probsvs_{\pprefsv}(x \iprefsv y) V_{\pprefsv ∪ \{(x, y), (y, x)\}}$.
+
+We need to find out how to compute $V_{\pprefsv}$, without having to iterate on the profiles: when $m=6, n=5$, $\card{\allprofs} = (6!)^5 > 10^{14}$.
+
+Given two disjoint sets $B, C \subseteq \allsvs$ of scoring-vectors, define the number of profiles that contain all scoring-vectors from $B$ and no scoring-vectors from $C$ as $\#_{B, ¬C}$. Observe that $\#_B = \#_{B, ¬\emptyset} = [(m-\card{B})!]^n$, or $0$ if the scoring-vectors in $B$ are incompatible. Assuming they are compatible, the results depend only on the cardinals of $B$ and $C$, thus we can write it using these numbers. 
+Observe that $\#_{3, ¬1} = \#_3 − \#_4$, $\#_{2, ¬2} = \#_2 − \#_4 − \#_{3, ¬1} − \#_{3, ¬1}$. 
+We see that $\#{b, ¬c} = \#_b − (\sum_{1 ≤ k ≤ c} {c \choose k} \#_{b+k, ¬(c-k)})$.
+
+Let’s decompose the preorder $\pprefsv$ into equivalence classes, one per “level”, where the level 1 contains the maximal scoring-vectors of $\pprefsv$, the level 2 contains the next best scoring-vectors, and so on. Write $z$ the last level of $\pprefsv$. Write $\alpha(l)$ the number of scoring-vectors at level $l$, $\beta(l)$ the number of scoring-vectors that are better than those at level $l$, thus $\beta(l) = \sum_{1 ≤ k < l} \alpha(k)$. Now $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha} k \#_{k, ¬(\alpha - k + \beta)}$. \emph{Except} this does not account for the cases where some of these rank-vectors are incompatible.
+
+\section{Simultaneous elicitation}
 We call an individual query a question in the form of a pair of alternatives and a voter $i \in N$. We assume the answer is true, thus, conforms to the real relation $\pref_i$. We keep track of those answers by building iteratively a set of relations $\pprof$.
 
 At each point in time we know $\pprefsv \subseteq \prefsv$ and $\ppref_i \subseteq \pref_i, \forall i \in N$, and hence, $F(\prof) \subseteq F_{\pprefsv}(\pprof)$.

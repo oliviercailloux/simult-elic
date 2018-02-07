@@ -113,11 +113,19 @@
 % \newcommand{\textstyleElProm}[1]{{\rmfamily\textsc{#1}}} 
 
 \newunicodechar{ℝ}{\mathbb{R}}
+\newunicodechar{ℝ}{\mathbb{R}}
+\newunicodechar{−}{\ifmmode{-}\else\textminus\fi}
 \newunicodechar{≠}{\ensuremath{\neq}}
 \newunicodechar{≤}{\ensuremath{\leq}}
 \newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≻}{\succ}
+\newunicodechar{⊁}{\nsucc}
+\newunicodechar{⪰}{\succeq}
+\newunicodechar{▷}{\triangleright}
+\newunicodechar{⋫}{\ntriangleright}
 \newunicodechar{→}{\ifmmode\rightarrow\else\textrightarrow\fi}
 \newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{⇏}{\ensuremath{\nRightarrow}}
 \newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
 \newunicodechar{∪}{\cup}
 \newunicodechar{∩}{\cap}
@@ -126,6 +134,8 @@
 \newunicodechar{¬}{\ifmmode\lnot\else\textlnot\fi}
 \newunicodechar{…}{\ifmmode\ldots\else\textellipsis\fi}
 \newunicodechar{×}{\ifmmode\times\else\texttimes\fi}
+\newunicodechar{γ}{\ensuremath{\gamma}}
+\newunicodechar{□}{\Box}
 
 \DeclareFontFamily{U}{MnSymbolD}{}
 \DeclareFontShape{U}{MnSymbolD}{m}{n}{
