@@ -194,7 +194,7 @@ We define the quality of asking a question of comparison of $x$ and $y$ as $q(x,
 
 We need to find out how to compute $V_{\pprefsv}$, without having to iterate on the profiles: when $m=6, n=5$, $\card{\allprofs} = (6!)^5 > 10^{14}$.
 
-Given two disjoint sets $B, C \subseteq \allsvs$ of scoring-vectors, define the number of profiles that contain all scoring-vectors from $B$ and no scoring-vectors from $C$ as $\#_{B, ¬C}$. Observe that $\#_B = \#_{B, ¬\emptyset} = [(m-\card{B})!]^n$, or $0$ if the scoring-vectors in $B$ are incompatible. Assuming they are compatible, the results depend only on the cardinals of $B$ and $C$, thus we can write it using these numbers. 
+Given two disjoint sets $B, C \subseteq \allsvs$ of scoring-vectors, define the number of profiles that contain all scoring-vectors from $B$ and no scoring-vectors from $C$ as $\#_{B, ¬C}$. Observe that $\#_B = \#_{B, ¬\emptyset} = [(m-\card{B})!]^n$, or $0$ if the scoring-vectors in $B$ are incompatible. Or, assuming all are compatible: ${{m^n - b} \choose {m-b}}$. Assuming they are compatible, the results depend only on the cardinals of $B$ and $C$, thus we can write it using these numbers. 
 Observe that $\#_{3, ¬1} = \#_3 − \#_4$, $\#_{2, ¬2} = \#_2 − \#_4 − \#_{3, ¬1} − \#_{3, ¬1}$. 
 We see that $\#{b, ¬c} = \#_b − (\sum_{1 ≤ k ≤ c} {c \choose k} \#_{b+k, ¬(c-k)})$.
 
