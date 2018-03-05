@@ -184,13 +184,13 @@ We assume here that $\prof$ is not defined: we are interested in fully eliciting
 
 We consider given a probability distribution $P^r$ over the complete profiles: $\sum_{\profshort \in \allprofs} \probprofs(\profshort) = 1$.
 
-Define the quality $V_{\pprefsv}$ of our current approximation $\pprefsv$ as follows: $V_{\pprefsv} = \sum_{\profshort \in \allprofs} \probprofs(\profshort) \card{F_{\pprefsv}(\profshort)}$.
+Define the badness $V_{\pprefsv}$ of our current approximation $\pprefsv$ as follows: $V_{\pprefsv} = \sum_{\profshort \in \allprofs} \probprofs(\profshort) \card{F_{\pprefsv}(\profshort)}$.
 
 As further simplification hypotheses, we assume for now an impartial culture, thus all profiles are equally likely ($\probprofs$ is uniform); and we consider that the real rule $G$ is resolute, thus $\card{G(\profshort)}=1, \forall \profshort \in \allprofs$. These simplifications imply that $V_{\pprefsv} = \frac{1}{\card{\allprofs}} \card{F_{\pprefsv}(\profshort)}$ and that $V_{\pprefsv} = 1 ⇔ F_{\pprefsv} = G$.
 
 Define $\probsvs_{\pprefsv}(x \sprefsv y)$ as our estimation, given our knowledge $\pprefsv$, of the probability that the committee answers $x \sprefsv y$ (this depends on some probability estimate over the set of possible weak-orders over scoring-vectors, probability estimate which in turn depends on $\pprefsv$, but which we do not need to make explicit for now). We define similarly $\probsvs_{\pprefsv}(x \iprefsv y)$.
 
-We define the quality of asking a question of comparison of $x$ and $y$ as $q(x, y) = \probsvs_{\pprefsv}(x \sprefsv y) V_{\pprefsv ∪ \{(x, y)\}} + \probsvs_{\pprefsv}(y \sprefsv x) V_{\pprefsv ∪ \{(y, x)\}} + \probsvs_{\pprefsv}(x \iprefsv y) V_{\pprefsv ∪ \{(x, y), (y, x)\}}$.
+We define the badness of asking a question of comparison of $x$ and $y$ as $b(x, y) = \probsvs_{\pprefsv}(x \sprefsv y) V_{\pprefsv ∪ \{(x, y)\}} + \probsvs_{\pprefsv}(y \sprefsv x) V_{\pprefsv ∪ \{(y, x)\}} + \probsvs_{\pprefsv}(x \iprefsv y) V_{\pprefsv ∪ \{(x, y), (y, x)\}}$. The lower, the better.
 
 We need to find out how to compute $V_{\pprefsv}$, without having to iterate on the profiles: when $m=6, n=5$, $\card{\allprofs} = (6!)^5 > 10^{14}$.
 
