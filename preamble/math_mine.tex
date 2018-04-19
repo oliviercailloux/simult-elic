@@ -9,18 +9,21 @@
 \newcommand{\allvoters}{\mathscr{N}}
 \newcommand{\voters}{N}
 \newcommand{\allsystems}{\mathcal{G}}
-\newcommand{\pref}{\boldsymbol{\succeq}^\textbf{r}}%real, complete pref
-\newcommand{\ppref}{\succeq^\text{p}}%partial pref
-\newcommand{\prof}{(\boldsymbol{\succeq}^\textbf{r}_i)_{i \in N}}
+\newcommand{\preflarge}{\boldsymbol{\succeq}^\textbf{r}}%real, complete pref
+\newcommand{\pref}{\boldsymbol{\succ}^\textbf{r}}%real, connected pref, strict
+\newcommand{\ppreflarge}{\succeq^\text{p}}%partial pref
+\newcommand{\ppref}{\succ^\text{p}}%partial pref
+\newcommand{\prof}{(\boldsymbol{\succ}^\textbf{r}_i)_{i \in N}}
 \newcommand{\profshort}{\boldsymbol{R}^\textbf{r}}
-\newcommand{\pprof}{(\succeq_i^\text{p})_{i \in N}}
+\newcommand{\profs}[1][]{\mathbfcal{R}^\textbf{r}\ifblank{#1}{}{_{#1}}}
+\newcommand{\pprof}{(\succ_i^\text{p})_{i \in N}}
 \newcommand{\pprofshort}{R^\text{p}}
 \newcommand{\allprofs}{\mathcal{L}(\alts)^N}%\mathbfcal{R}
 \newcommand{\allpprofs}{\mathcal{O}(\alts)^N}
 \newcommand{\linors}{\mathcal{L}(\alts)}
 \newcommand{\pors}{\mathcal{O}(\alts)}%partial orders
 
-\newcommand{\allsvs}{[0, m-1]^N}%all score-vectors
+\newcommand{\allsvs}{\intvl{0, m-1}^N}%all score-vectors
 \usepackage{pdfrender}
 \newcommand*{\boldgreek}[1]{%
   \textpdfrender{%
@@ -33,9 +36,9 @@
 
 %\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.35pt}{$\succcurlyeq$}\textsuperscript{\textbf{r}}
 %\newcommand{\prefsv}{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.35pt}{\succcurlyeq}^\textbf{r}}%pref over score-vectors
-\newcommand{\prefsv}{\text{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.15pt}{$\succcurlyeq$}\textsuperscript{\textbf{r}}}}%pref over score-vectors
-\newcommand{\sprefsv}{{\boldsymbol{\succ}^\textbf{r}}}%strict pref over score-vectors
-\newcommand{\iprefsv}{\boldsymbol{\approx}^\textbf{r}}%indiff, pref over score-vectors
+\newcommand{\prefsv}{\text{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.15pt}{$\succcurlyeq$}\textsuperscript{\!\!\!s\textbf{\,r}}}}%pref over score-vectors
+\newcommand{\sprefsv}{\mathrel{\boldsymbol{\succ}^{\text{\!\!\!s}\textbf{\,r}}}}%strict pref over score-vectors
+\newcommand{\iprefsv}{\mathrel{\boldsymbol{\approx}^{\text{\!\!\!s}\textbf{\,r}}}}%indiff, pref over score-vectors
 \newcommand{\pprefsv}{\succcurlyeq^\text{p}}%pref over score-vectors: our approximation
 
 \newcommand{\probprofs}{P^\text{r}}
