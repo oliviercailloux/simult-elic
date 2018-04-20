@@ -138,19 +138,20 @@ Our hypothesis is thus that $x \sprefsv y$ implies $y \notin \bigcup G(\profs[xy
 
 The transitivity of $\prefsv$ makes it a useful basis for queries: a few questions can bring “free” information, by computing the transitive closure of our knowledge so far.
 
-Assume we are able to obtain $\psprefsv \subseteq \sprefsv$ and $\piprefsv \subseteq \iprefsv$, for some preorder $\pprefsv = \psprefsv ∪ \piprefsv$, $\psprefsv$ denoting the asymmetric part of $\pprefsv$. Define our approximation of $G$, $G_{\pprefsv}$, as the rule that selects the maximal elements according to $\pprefsv$, given a complete profile: $x$ wins in $G_{\pprefsv}(\profshort)$ iff there is no $y$ in $\profshort$ such that $y \psprefsv x$. The rule $G_{\pprefsv}$ gives us information about the real rule, $G$, in the sense that any real winner is in the winners selected by $G_{\pprefsv}$.
+Assume we are able to obtain a strict partial order $\psprefsv \subseteq \sprefsv$. Define our approximation of $G$, $G_{\psprefsv}$, as the rule that selects the maximal elements according to $\psprefsv$, given a complete profile: $x$ wins in $G_{\psprefsv}(\profshort)$ iff there is no $y$ in $\profshort$ such that $y \psprefsv x$. The rule $G_{\psprefsv}$ gives us information about the real rule, $G$, in the sense that any real winner is in the winners selected by $G_{\psprefsv}$.
 \begin{fact}
-	Given $\pprefsv \subseteq \prefsv$, $\forall \profshort: G(\profshort) \subseteq G_{\pprefsv}(\profshort)$.
+	Given $\psprefsv \subseteq \sprefsv$, $\forall \profshort: G(\profshort) \subseteq G_{\psprefsv}(\profshort)$.
 \end{fact}
 \begin{proof}
-	Consider $\profshort$ and assume $y$ does not win in $G_{\pprefsv}(\profshort)$. We show that $y$ does not win in $G(\profshort)$. We know that $y$ is dominated by some $x$ in $\profshort$, thus $x \psprefsv y$ and both $x$ and $y$ are in $\profshort$. Because $x \psprefsv y$, $x \sprefsv y$, thus $y$ does not win in $G(\profshort)$.
+	Consider $\profshort$ and assume $y$ does not win in $G_{\psprefsv}(\profshort)$. We show that $y$ does not win in $G(\profshort)$. We know that $y$ is dominated by some $x$ in $\profshort$, thus $x \psprefsv y$ and both $x$ and $y$ are in $\profshort$. Because $x \psprefsv y$, $x \sprefsv y$, thus $y$ does not win in $G(\profshort)$.
 \end{proof}
 
-A simpler way to obtain a preorder over $\allsvs$ useful for queries, adopted in a different article \citep{cailloux_eliciting_2014}, is to assume that the committee has such a relation “in mind”, and that this relation is a complete preorder. But this puts a restriction on $G$, as it has to be entirely compatible with such a way of thinking. Furthermore, it may be considered unclear what “having a relation in mind” mean in this context, if it is not precisely equated to conditions on $G$ as done here. The current approach also might be easier to include in more general elicitation procedures about voting rules.
-
-\commentOC{On pourrait peut-être explorer la relation entre $G$ et $\prefsv$, voir la remarque ci-dessous.}
-
-Remark that there are two properties in particular that we need, about $\prefsv$ and the relationship between $\prefsv$ and $G$: $\prefsv$ is a preorder, and $G \subseteq G_{\prefsv}$. Our definition of $\prefsv$, given $G$, permits to obtain the properties we want. However, we could relax our demands about $\prefsv$ and still obtain the desired properties. Consider as an example $m = 3$, one voter, and the pareto-compatible rule, which thus selects always the best ranked alternative, equivalently, which selects the scoring-vector $3$ as sole winner. Observe that $G$ determines according to our definitions a preorder where the scoring-vector $2$ is indifferent to $1$ (because both are dominated by $3$, and this is all that matters to $G$). Assume the committee tells us on the contrary that $2 \sprefsv 1$. We can still obtain the properties we want, although it contradicts our definition of $\sprefsv$.
+Assume we know $R \subseteq \sprefsv$ and $S \subseteq \iprefsv$ (given directly as answers to our queries). Then we can define $\pprefsv = (R ∪ S)^T$ and obtain $\pprefsv \subseteq \prefsv$. Defining $\psprefsv$ and $\piprefsv$ as the asymmetric and symmetric parts of $\pprefsv$, we obtain that $\psprefsv \subseteq \sprefsv$.
+\begin{proof}
+	(Only the second part.) Given $x \pprefsv y$, we show that if $x \iprefsv y$ then $x S^T y$ thus $y \pprefsv x$, which shows that $x \psprefsv y ⇒ ¬(x \iprefsv y)$, which shows that when $x \psprefsv y$, as $x \pprefsv y$, $x \prefsv y$, and as $¬(x \iprefsv y)$, $x \sprefsv y$.
+	
+	The main point holds because, if $x \pprefsv y$ and $x \iprefsv y$, from $x$ we can reach $y$ through $R ∪ S$, and thus from $x$ we can reach $y$ using $S$ only (because if we need to use $R$, then $x R w [R ∪ S]^T y$, or something similar, and then $x \sprefsv y$).
+\end{proof}
 
 \section{Characterisation of scoring-vector rules}
 We define the class of rules that can be described as maximizing a preorder over scoring-vectors as preorder-based rules: a rule $F$ is a preorder-based rule iff for some preorder $\prefsv$ over $\allsvs$, $F = F_{\prefsv}$. A sub-class of this class is the class of weak-order based rules, corresponding to the case where $\prefsv$ is a weak-order.
@@ -199,6 +200,8 @@ We want to ask questions in a way that we get close to the real winners, $W = F(
 \appendix
 \section{About the definition of the relation over scoring-vectors}
 \label{sec:defSprefsv}
+It might be conceptually useful to make clear the minimal properties we need for $\sprefsv$, and to determine the minimal required hypothesis about the relation between what the committee says and $G$. Or to obtain an “iff” definition for $\sprefsv$ relating it to $G$.
+
 Define binary relations over $\allsvs$ as follows.
 \begin{itemize}
 	\item $x B_> y$ iff $y \notin \bigcup G(\profs[xy]) ∧ x \in \bigcup G(\profs[xy])$
@@ -211,6 +214,10 @@ Define binary relations over $\allsvs$ as follows.
 Note that we can’t suppose in general that $x \sprefsv y ⇔ y \notin \bigcup G(\profs[xy])$, as then $x \sprefsv y \sprefsv x$ for incompatible scoring-vectors. Also, we can’t suppose in general that $\sprefsv = B_>$. First, because $B_>$ may not be a strict partial order, and taking its transitive closure may not solve the problem: $G$ could be such that $(x = 21) B_> (y = 12) B_> (z = 20) B_> (w = 02) B_> (x = 12)$. The second inadequacy of $B_>$ is that sometimes, $x \sprefsv y$ seems intuitively meaningful even though $x$ and $y$ can’t be together in a profile: consider $44$ and $41$. In that case, a plausible interpretation of the intuition is that $44$ is better than a third scoring-vector, itself better than $41$ (and that no cycle happen): consider $44 B_> 33 B_> 41$.
 
 We obtain the following possible definition relating the relation $\sprefsv$ and the rule $G$: $x \sprefsv y$ iff [($x B_> y$) or ($x B_>^T y$ and $x B_n y$)] and not $y B_\text{w}^T x$.
+
+\commentOC{On pourrait peut-être explorer la relation entre $G$ et $\prefsv$, voir la remarque ci-dessous.}
+
+Remark that there are two properties in particular that we need, about $\prefsv$ and the relationship between $\prefsv$ and $G$: $\prefsv$ is a preorder, and $G \subseteq G_{\prefsv}$. Our definition of $\prefsv$, given $G$, permits to obtain the properties we want. However, we could relax our demands about $\prefsv$ and still obtain the desired properties. Consider as an example $m = 3$, one voter, and the pareto-compatible rule, which thus selects always the best ranked alternative, equivalently, which selects the scoring-vector $3$ as sole winner. Observe that $G$ determines according to our definitions a preorder where the scoring-vector $2$ is indifferent to $1$ (because both are dominated by $3$, and this is all that matters to $G$). Assume the committee tells us on the contrary that $2 \sprefsv 1$. We can still obtain the properties we want, although it contradicts our definition of $\sprefsv$.
 
 \end{document}
 
