@@ -36,10 +36,12 @@
 
 %\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.35pt}{$\succcurlyeq$}\textsuperscript{\textbf{r}}
 %\newcommand{\prefsv}{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.35pt}{\succcurlyeq}^\textbf{r}}%pref over score-vectors
-\newcommand{\prefsv}{\text{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.15pt}{$\succcurlyeq$}\textsuperscript{\!\!\!s\textbf{\,r}}}}%pref over score-vectors
+\newcommand{\prefsv}{\mathrel{\text{\textpdfrender{TextRenderingMode=FillStroke,LineWidth=.15pt}{$\succcurlyeq$}\textsuperscript{\!\!\!s\textbf{\,r}}}}}%pref over score-vectors
 \newcommand{\sprefsv}{\mathrel{\boldsymbol{\succ}^{\text{\!\!\!s}\textbf{\,r}}}}%strict pref over score-vectors
-\newcommand{\iprefsv}{\mathrel{\boldsymbol{\approx}^{\text{\!\!\!s}\textbf{\,r}}}}%indiff, pref over score-vectors
-\newcommand{\pprefsv}{\succcurlyeq^\text{p}}%pref over score-vectors: our approximation
+\newcommand{\iprefsv}{\mathrel{\boldsymbol{\sim}^{\text{\!\!\!s}\textbf{\,r}}}}%indiff, pref over score-vectors
+\newcommand{\pprefsv}{\succcurlyeq^\text{\!\!\!s\,p}}%pref over score-vectors: our approximation
+\newcommand{\psprefsv}{\succ^\text{\!\!\!s\,p}}%strict version
+\newcommand{\piprefsv}{\sim^\text{\!\!\!s\,p}}
 
 \newcommand{\probprofs}{P^\text{r}}
 \newcommand{\probsvs}{P^\text{a}}

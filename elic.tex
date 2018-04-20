@@ -29,9 +29,9 @@ CNRS, LAMSADE,
 \maketitle
 
 \section{Introduction}
-In some situations a committee may desire to select winning alternatives using the preferences, over those alternatives, of multiple individuals (called voters). For example, a jury may desire to use the opinions of multiple reviewers to elect the best papers among some given set of papers. We are interested in situations where the committee wants to express preferences on the voting rule (express preferences about justice) and voters express preferences about the order of the alternatives. We assume the committee expresses only one voice: preference about justice is consensual. Voters may have differing opinions however. The voting rule serves to aggregate those different opinions.
+In some situations a committee may desire to select winning alternatives using the preferences, over those alternatives, of multiple individuals (called voters). For example, a jury may desire to use the opinions of multiple reviewers to elect the best papers among some given set of papers. We are interested in situations where the committee wants to express preferences on the voting rule and voters express preferences about the order of the alternatives. We assume the committee expresses only one voice: preference on the voting rule is consensual. Voters may have differing opinions however. The voting rule serves to aggregate those different opinions.
 
-We assume the preferences for justice (of the committee) and over alternatives (of the voters) are unknown and obtaining information about them have a cost. This could be because we care about privacy (knowing as few as necessary about other’s preferences might be considered good), because of transmission cost (?), because of cognitive cost or other resources required for someone to make up her preferences (or, in the case of the committee, to come to an agreement). Hence, we are interested in querying as few as possible.
+We assume the preferences on the voting rule (of the committee) and over alternatives (of the voters) are unknown and obtaining information about them have a cost. This could be because we care about privacy (knowing as few as necessary about other’s preferences might be considered good), because of transmission cost (?), because of cognitive cost or other resources required for someone to make up her preferences, including, in the case of the committee, the cost of coming to an agreement. Hence, we are interested in querying as few as possible.
 
 We are interested in solving a given problem, meaning, finding (or getting close to) the set of winning alternatives, given a set of alternatives, a committee and a set of individuals with (well-defined but unknown) preferences. As a bonus however, we also obtain some reusable information about the voting rules the committee appreciates, which might be useful if the procedure has to be applied repeatedly with the same committee.
 
@@ -51,11 +51,10 @@ Here are some notations. In those notations, the relations in bold suffixed with
 	\item[$F: \allprofs \rightarrow \powersetz{\alts}$] a voting rule (associates each complete profile to a non-empty subset of winning alternatives)
 \end{description}
 
-Throughout the article we consider defined a rule $G$ representing the considerations of justice of the committee: given a complete profile $\prof$, the committee will select a winner among $G(\prof)$ (the tie-breaking is done in a way that cannot be described by $G$, for example using a random selection or other inputs than $\prof$). 
-%When talking about some generic voting rule we use the letter $F$, when we do not specify $F$ it is implied we talk about the $F=G$ that describes the committee preference for justice. 
-(Note that we use the word justice in order to distinguish clearly those preferences from the ones of the voters, that compare alternatives. We do not assume that the preferences of the committee match some philosophical or common-sense meaning of justice, nor do we try to define those concepts.)
+Throughout the article we consider defined a voting rule $G$ that is used to specify the preferences on the voting rule of the committee: given a complete profile $\prof$, the committee will select a winner among $G(\prof)$ (the tie-breaking being done in a way not described by $G$). We consider the committee is able to express some of its preferences under the form of constraints on $G$, such as: if $G$ selects such alternative given such profile, then it may not select such alternative given such profile.
+When talking about some generic voting rule we use the letter $F$. 
 
-We can extend the domain of a voting rule to all partial profiles instead of only complete profiles. Given a rule $F$, define the robust equivalent rule as $F^\text{robust}: \allpprofs → \powersetz{\alts}$ which selects all possible winners given the partial profile, thus, an alternative is in $F^\text{robust}(\pprof)$ if there exists a complete profile $\prof$ that is a completion of $\pprof$ (meaning that for each $i$, $\pref_i$ is a completion of $\ppref_i$) for which $F(\prof)$ selects that alternative. We will write $F$ instead of $F^\text{robust}$.
+We can extend the domain of a voting rule to all partial profiles instead of only complete profiles. Given a rule $F$, define the robust equivalent rule as $F^\text{robust}: \allpprofs → \powersetz{\alts}$ which selects all possible winners given the partial profile, thus, an alternative is in $F^\text{robust}(\pprof)$ if there exists a complete profile $\prof$ that is a completion of $\pprof$ (meaning that for each $i$, $\pref_i$ is a completion of $\ppref_i$) for which $F(\prof)$ selects that alternative.
 
 \subsection{Voting rules select scoring-vectors}
 Define a scoring-vector $x$ as an element of $\allsvs$, a mapping of voters to scores, where a score is an integer in $\intvl{0, m-1}$. (This notation designates intervals in the natural numbers throughout this article.) As $m$ is less than $10$ in our examples, we write our examples of scoring-vector as concatenated numbers, for example $43$ denotes a scoring-vector mapping the first voter to score $4$ and the second voter to score $3$.
@@ -128,40 +127,23 @@ We will thus use interchangeably $\profshort$ and $χ_{\profshort}$ when it caus
 We say that a complete profile $\profshort$ contains a scoring-vector iff some alternative is associated to this scoring-vector in $χ_{\profshort}$, that is, iff $x \in χ_{\profshort}(\allalts)$. 
 We may also consider any voting rule $F$ interchangeably with its scoring-vectors voting rule counterpart $F^\text{s}$, that selects winning scoring-vectors given scoring-vectors profiles instead of winning alternatives given profiles. Indeed, given $F$, we can define $F^\text{s}(χ_{\profshort}) = χ_{\profshort}(F(\profshort))$, and this mapping is a bijection. Thus, we say that a scoring-vector $x$ wins in $F(\profshort)$, and write $x \in F(\profshort)$, to mean that $x \in F^\text{s}(χ_{\profshort})$. 
 
-\section{Querying the preference for justice through scoring-vectors}
-We now want to define a preorder $\prefsv$ (a reflexive and transitive binary relation) that orders scoring-vectors in a way that corresponds intuitively to the notion that $G$ (and thus, the committee) “considers” $x$ as a better scoring-vector than $y$. 
-We will then assume we can obtain information about $\prefsv$ (for example, by interrogating the committee) and use this to enrich our knowledge of $G$.
+\section{Querying the preference on the voting rule through scoring-vectors}
+We now want to define a way of querying whether, intuitively, $G$ (and thus, the committee) “considers” $x$ as a better scoring-vector than $y$. We will assume we can obtain information about this ordering (by interrogating the committee) and use this to enrich our knowledge of $G$.
 
-We assume that whenever the committee tells us that $x \sprefsv y$, it means that whenever both $x$ and $y$ are present in a profile, $y$ does not win in $G$; that $\sprefsv$ is asymmetric; that whenever the committee tells us that $x \equiv y$, it means that $x$ is selected by $G$ whenever $y$ is selected by $G$, for all profiles where both $x$ and $y$ are present; that $\equiv$ is symmetric; and that $≥ = \sprefsv ∪ \equiv$ is a preorder. \footnote{Assuming that $≥$ is a preorder implies that equivalent vectors compare the same viz. $\sprefsv$. Conversely, assuming that equivalent vectors compare the same viz. $\sprefsv$, and assuming that $\sprefsv$ is a strict partial order, we obtain that $≥$ is a preorder (?)}
+Consider a binary relation $\prefsv$ over the scoring-vectors. Define $\sprefsv$ as its asymmetric part and $\iprefsv$ as its symmetric part. We ask queries of the form $x \prefsv y$, and we assume that the answers of the committee to those queries satisfy the following properties. First, when the committee tells us that $x \sprefsv y$, it implies that whenever both $x$ and $y$ are present in a profile, $y$ does not win in $G$. Second, when the committee tells us that $x \iprefsv y$, it implies that $x$ is selected by $G$ whenever $y$ is selected by $G$, for all profiles where both $x$ and $y$ are present. Third, $\prefsv$ is a preorder (a reflexive and transitive binary relation).
 
-Let $\profs[xy] = \set{\profshort \suchthat \{x, y\} \subseteq χ_{\profshort}(\allalts)}$ denote the set of all complete profiles that contain scoring-vectors $x$ and $y$. Given a rule $F$, $x \in \bigcup F(\profs[xy])$ holds whenever $F(\profshort)$ selects $x$ as one of the winners for some complete profile $\profshort$ that contains $x$ and $y$.
+Let $\profs[xy] = \set{\profshort \suchthat \{x, y\} \subseteq χ_{\profshort}(\allalts)}$ denote the set of all complete profiles that contain the scoring-vectors $x$ and $y$. Given a rule $F$, $x \in \bigcup F(\profs[xy])$ holds whenever $F(\profshort)$ selects $x$ as one of the winners for some complete profile $\profshort$ that contains $x$ and $y$.
 
-Our hypothesis (H) is thus that $\sprefsv$ is a strict partial order such that $x \sprefsv y$ implies $y \notin \bigcup G(\profs[xy])$, that $\equiv$ is an equivalence relation such that $x \equiv y$ implies $\forall \profshort \in \profs[xy]: x \in G(\profshort) ⇔ y \in G(\profshort)$, and that $≥ = \sprefsv ∪ \equiv$ is a preorder.
+Our hypothesis is thus that $x \sprefsv y$ implies $y \notin \bigcup G(\profs[xy])$, that $\iprefsv$ implies $\forall \profshort \in \profs[xy]: x \in G(\profshort) ⇔ y \in G(\profshort)$, and that $\prefsv = \sprefsv ∪ \iprefsv$ is a preorder. (\Cref{sec:defSprefsv} analyzes alternative hypotheses.)
 
-The following fact holds as $\sprefsv$ and $\equiv$ are respectively the asymmetric and the symmetric part of a preorder.
-\begin{fact}
-	If $≥ = \sprefsv ∪ \equiv$ satisfy (H), then $\sprefsv$ is a strict partial order (transitive and irreflexive) and $\equiv$ is an equivalence relation.
-\end{fact}
+The transitivity of $\prefsv$ makes it a useful basis for queries: a few questions can bring “free” information, by computing the transitive closure of our knowledge so far.
 
-Define a binary relation $\iprefsv$ as : $x \iprefsv y$ iff $x$ and $y$ compare similarly to all other scoring-vectors, according to $\sprefsv$: $x \iprefsv y$ iff $(x \sprefsv z ⇔ y \sprefsv z)$ and $(z \sprefsv x ⇔ z \sprefsv y)$, $\forall z \in \allsvs$.
-
-Define $\prefsv = \sprefsv ∪ \iprefsv$.
-
-\begin{fact}
-	$\prefsv$ is a preorder (reflexive and transitive).
-\end{fact}
-\begin{proof}
-	The reader can check that $\sprefsv$ is a strict partial order (irreflexive and transitive). The result follows from this fact and the definition of $\iprefsv$ \citep{fishburn_utility_1970}.
-\end{proof}
-
-The relation $\prefsv$ provides a useful basis for queries because we know it is transitive. A few questions can therefore bring “free” information, by computing the transitive closure of our knowledge so far.
-
-Assume we are able to obtain $\pprefsv \subseteq \prefsv$. Define our approximation of $G$, $G_{\pprefsv}$, as the rule that selects the maximal elements according to $\pprefsv$, given a complete profile: $x$ wins in $G_{\pprefsv}(\profshort)$ iff there is no $y$ in $\profshort$ such that $y \pprefsv x$. The rule $G_{\pprefsv}$ gives us information about the real rule, $G$, in the sense that any real winner is in the winners selected by $G_{\pprefsv}$.
+Assume we are able to obtain $\psprefsv \subseteq \sprefsv$ and $\piprefsv \subseteq \iprefsv$, for some preorder $\pprefsv = \psprefsv ∪ \piprefsv$, $\psprefsv$ denoting the asymmetric part of $\pprefsv$. Define our approximation of $G$, $G_{\pprefsv}$, as the rule that selects the maximal elements according to $\pprefsv$, given a complete profile: $x$ wins in $G_{\pprefsv}(\profshort)$ iff there is no $y$ in $\profshort$ such that $y \psprefsv x$. The rule $G_{\pprefsv}$ gives us information about the real rule, $G$, in the sense that any real winner is in the winners selected by $G_{\pprefsv}$.
 \begin{fact}
 	Given $\pprefsv \subseteq \prefsv$, $\forall \profshort: G(\profshort) \subseteq G_{\pprefsv}(\profshort)$.
 \end{fact}
 \begin{proof}
-	Consider $\profshort$ and assume $y$ does not win in $G_{\pprefsv}(\profshort)$. We show that $y$ does not win in $G(\profshort)$. We know that $y$ is dominated by some $x$ in $\profshort$, thus $x \pprefsv y$ and both $x$ and $y$ are in $\profshort$. Because $x \pprefsv y$, $x \prefsv y$, thus either $x B_> y$ or $x B_n y$, and in both cases we obtain that $y$ does not win in $G(\profshort)$.
+	Consider $\profshort$ and assume $y$ does not win in $G_{\pprefsv}(\profshort)$. We show that $y$ does not win in $G(\profshort)$. We know that $y$ is dominated by some $x$ in $\profshort$, thus $x \psprefsv y$ and both $x$ and $y$ are in $\profshort$. Because $x \psprefsv y$, $x \sprefsv y$, thus $y$ does not win in $G(\profshort)$.
 \end{proof}
 
 A simpler way to obtain a preorder over $\allsvs$ useful for queries, adopted in a different article \citep{cailloux_eliciting_2014}, is to assume that the committee has such a relation “in mind”, and that this relation is a complete preorder. But this puts a restriction on $G$, as it has to be entirely compatible with such a way of thinking. Furthermore, it may be considered unclear what “having a relation in mind” mean in this context, if it is not precisely equated to conditions on $G$ as done here. The current approach also might be easier to include in more general elicitation procedures about voting rules.
@@ -177,7 +159,7 @@ We define the class of rules that can be described as maximizing a preorder over
 
 \commentOC{Il pourrait être intéressant de poursuivre cette analyse. Et peut-être même utile pour une élicitation efficace ?}
 
-\section{Elicitation of the sense of justice only}
+\section{Elicitation of the preference on the voting rule only}
 We assume we can observe $\sprefsv$ and $\iprefsv$: provided with a pair $x, y$, we can know whether $x \sprefsv y$, $y \sprefsv x$, $x \iprefsv y$, or none of those.
 
 We start by assuming that $\prefsv$ is a weak-order (a complete preorder), thus “none of those” does not happen under this assumption.
@@ -185,7 +167,7 @@ We start by assuming that $\prefsv$ is a weak-order (a complete preorder), thus 
 We call a committee query a question in the form of a pair of scoring-vectors, to which we obtain as answer: $x \sprefsv y$, $y \sprefsv x$, or $x \iprefsv y$. We assume no noise in the answers: the answer we get conforms to the real relation $\prefsv$ as defined above.
 We keep track of those answers by way of building iteratively a preorder $\pprefsv$.
 
-We assume here that $\prof$ is not defined: we are interested in fully eliciting the preference for justice of the committee, meaning, the function $G$, so that it can then be applied to any profile when they later arise. Note that we assume that the number of alternatives and voters are fixed (this follows from our definition of $G$).
+We assume here that $\prof$ is not defined: we are interested in fully eliciting the preference on the voting rule of the committee, meaning, the function $G$, so that it can then be applied to any profile when they later arise. Note that we assume that the number of alternatives and voters are fixed (this follows from our definition of $G$).
 
 We consider given a probability distribution $P^r$ over the complete profiles: $\sum_{\profshort \in \allprofs} \probprofs(\profshort) = 1$.
 
@@ -199,11 +181,11 @@ We define the badness of asking a question of comparison of $x$ and $y$ as $b(x,
 
 We need to find out how to compute $V_{\pprefsv}$, without having to iterate on the profiles: when $m=6, n=5$, $\card{\allprofs} = (6!)^5 > 10^{14}$.
 
-Given two disjoint sets $B, C \subseteq \allsvs$ of scoring-vectors, define the number of profiles that contain all scoring-vectors from $B$ and no scoring-vectors from $C$ as $\#_{B, ¬C}$. Observe that $\#_B = \#_{B, ¬\emptyset} = [(m-\card{B})!]^n$, or $0$ if the scoring-vectors in $B$ are incompatible. Or, assuming all are compatible: ${{m^n - b} \choose {m-b}}$. Assuming they are compatible, the results depend only on the cardinals of $B$ and $C$, thus we can write it using these numbers. 
+Given two disjoint sets $B, C \subseteq \allsvs$ of scoring-vectors, define the number of profiles that contain all scoring-vectors from $B$ and no scoring-vectors from $C$ as $\#_{B, ¬C}$. Observe that $\#_B = \#_{B, ¬\emptyset} = [(m-\card{B})!]^n$, or $0$ if the scoring-vectors in $B$ are incompatible. Or, assuming all are compatible: $\binom{m^n - b}{m-b}$. Assuming they are compatible, the results depend only on the cardinals of $B$ and $C$, thus we can write it using these numbers. 
 Observe that $\#_{3, ¬1} = \#_3 − \#_4$, $\#_{2, ¬2} = \#_2 − \#_4 − \#_{3, ¬1} − \#_{3, ¬1}$. 
-We see that $\#{b, ¬c} = \#_b − (\sum_{1 ≤ k ≤ c} {c \choose k} \#_{b+k, ¬(c-k)})$.
+We see that $\#{b, ¬c} = \#_b − (\sum_{1 ≤ k ≤ c} \binom{c}{k} \#_{b+k, ¬(c-k)})$.
 
-Let’s decompose the preorder $\pprefsv$ into equivalence classes, one per “level”, where the level 1 contains the maximal scoring-vectors of $\pprefsv$, the level 2 contains the next best scoring-vectors, and so on. Write $z$ the last level of $\pprefsv$. Write $\alpha(l)$ the number of scoring-vectors at level $l$, $\beta(l)$ the number of scoring-vectors that are better than those at level $l$, thus $\beta(l) = \sum_{1 ≤ k < l} \alpha(k)$. Now $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha(l)} k \#_{k, ¬(\alpha(l) - k + \beta(l))}$. Or, more likely, $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha(l)} {\alpha(l) \choose k} k \#_{k, ¬(\alpha(l) - k + \beta(l))}$. \emph{Except} this does not account for the cases where some of these rank-vectors are incompatible.
+Let’s decompose the preorder $\pprefsv$ into equivalence classes, one per “level”, where the level 1 contains the maximal scoring-vectors of $\pprefsv$, the level 2 contains the next best scoring-vectors, and so on. Write $z$ the last level of $\pprefsv$. Write $\alpha(l)$ the number of scoring-vectors at level $l$, $\beta(l)$ the number of scoring-vectors that are better than those at level $l$, thus $\beta(l) = \sum_{1 ≤ k < l} \alpha(k)$. Now $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha(l)} k \#_{k, ¬(\alpha(l) - k + \beta(l))}$. Or, more likely, $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha(l)} \binom{\alpha(l)}{k} k \#_{k, ¬(\alpha(l) - k + \beta(l))}$. \emph{Except} this does not account for the cases where some of these rank-vectors are incompatible.
 
 \section{Simultaneous elicitation}
 We call an individual query a question in the form of a pair of alternatives and a voter $i \in N$. We assume the answer is true, thus, conforms to the real relation $\pref_i$. We keep track of those answers by building iteratively a set of relations $\pprof$.
@@ -216,6 +198,7 @@ We want to ask questions in a way that we get close to the real winners, $W = F(
 
 \appendix
 \section{About the definition of the relation over scoring-vectors}
+\label{sec:defSprefsv}
 Define binary relations over $\allsvs$ as follows.
 \begin{itemize}
 	\item $x B_> y$ iff $y \notin \bigcup G(\profs[xy]) ∧ x \in \bigcup G(\profs[xy])$
