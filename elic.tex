@@ -37,7 +37,7 @@ We are interested in solving a given problem, meaning, finding (or getting close
 
 Here are some notations. In those notations, the relations in bold suffixed with the letter \textbf{r} indicate the “real” relations, which we want to distinguish from the approximations we will build (suffixed with the letter $p$ to indicate partial knowledge).
 \begin{description}[font=\normalfont, leftmargin=!, labelwidth=\widthof{$F: \allprofs \rightarrow \powersetz{\alts}$}]
-	\item[$N$] the (finite) set of voters
+	\item[$N ≠ \emptyset$] the (finite) set of voters
 	\item[$\alts$] the (finite) set of alternatives, $\card{\alts} = m$
 	\item[$\linors \subseteq \powerset{\alts × \alts}$] the linear orders (connected, transitive, asymmetric) on $\alts$
 	\item[$\pors \subseteq \powerset{\alts × \alts}$] the partial orders (transitive, asymmetric) on $\alts$
@@ -56,7 +56,7 @@ When talking about some generic voting rule we use the letter $F$.
 
 We can extend the domain of a voting rule to all partial profiles instead of only complete profiles. Given a rule $F$, define the robust equivalent rule as $F^\text{robust}: \allpprofs → \powersetz{\alts}$ which selects all possible winners given the partial profile, thus, an alternative is in $F^\text{robust}(\pprof)$ if there exists a complete profile $\prof$ that is a completion of $\pprof$ (meaning that for each $i$, $\pref_i$ is a completion of $\ppref_i$) for which $F(\prof)$ selects that alternative.
 
-\subsection{Voting rules select scoring-vectors}
+\subsection{Scoring-vectors}
 Define a scoring-vector $x$ as an element of $\allsvs$, a mapping of voters to scores, where a score is an integer in $\intvl{0, m-1}$. (This notation designates intervals in the natural numbers throughout this article.) As $m$ is less than $10$ in our examples, we write our examples of scoring-vector as concatenated numbers, for example $43$ denotes a scoring-vector mapping the first voter to score $4$ and the second voter to score $3$.
 
 Given a complete profile $\profshort = \prof$, we can associate each alternative $a$ to its scoring-vector $χ_{\profshort}(a) \in \allsvs$, by giving, for each voter $i \in N$, as many points to $a$ as the number of alternatives it is preferred to in $\pref_i$. Thus, $χ_{\profshort}$ is the function in $(\allsvs)^{A}$ that associates alternatives to scoring-vectors on the basis of the profile $\profshort$. 
@@ -126,8 +126,18 @@ We can now view each complete profile as equivalent to its corresponding scoring
 %We will thus use interchangeably $\profshort$ and $χ_{\profshort}$ when it causes no confusion, for example, we consider $F(χ_{\profshort})$ is defined (and equal to $F(\profshort)$).
 Abusing notation, we say that a scoring-vector $x$ wins in $F(\profshort)$, and write $x \in F(\profshort)$, to mean that $x \in χ_{\profshort}(F(\profshort))$. 
 We say that a complete profile $\profshort$ contains a scoring-vector iff some alternative is associated to this scoring-vector in $χ_{\profshort}$, that is, iff $x \in χ_{\profshort}(\allalts)$. 
-Finally, we say that a set of scoring-vectors $X \subseteq \allsvs$ contains incompatible scoring-vectors iff they can’t be together in a profile, that is, iff $\exists i \in N, x ≠ y \in X \suchthat x(i) = y(i)$.
+Finally, we say that two scoring-vectors $x, y \in \allsvs$ are incompatible iff they can’t be together in a profile, that is, iff $\exists i \in N \suchthat x(i) = y(i)$.
 %We may also consider any voting rule $F$ interchangeably with its scoring-vectors voting rule counterpart $F^\text{s}$, that selects winning scoring-vectors given scoring-vectors profiles instead of winning alternatives given profiles. Indeed, given $F$, we can define $F^\text{s}(χ_{\profshort}) = χ_{\profshort}(F(\profshort))$, and this mapping is a bijection. 
+
+\subsection{Neutrality}
+Some voting rules are neutral, meaning that they do not consider the identity of the alternatives, thus, that they consider only the preferences to select winners. 
+%Formally, let $\sigma$ denote a permutation over the alternatives $\allalts$, that is, a bijection from $\allalts$ to $\allalts$, and let $\boldsymbol{\succ}^\textbf{r}_{i, \sigma} = \sigma \circ \boldsymbol{\succ}^\textbf{r}_i \circ \sigma^{-1}$ denote the preference after permuting the alternatives. For example, if $\sigma$ maps $x$ to $w$ and $y$ to $z$ and $\boldsymbol{\succ}^\textbf{r}_i$ contains $(x, y)$, then $\boldsymbol{\succ}^\textbf{r}_{i, \sigma}$ contains $(y, z)$. 
+
+Define a neutral profile as a profile that does not include the identity of the alternatives. Define a neutral scoring-vectors profile as any set of $m$ scoring-vectors that are pairwise compatible. Note that there are $m!$ scoring-vectors profiles for each neutral scoring-vectors profile. 
+%Assume $N ≠ \emptyset$, and let $i_0 \in N$ denote one of the voters in $N$.
+%A neutral profile $\neutrprof$ maps each voter except $i_0$ to its preference, thus, considers the preference of $i_0$ fixed. There is a bijection between neutral scoring-vectors profiles and neutral profiles.
+
+When a voting rule $F$ is neutral, it may be considered as selecting winning scoring-vectors given neutral scoring-vectors profiles.
 
 \section{Querying the preference on the voting rule through scoring-vectors}
 We now want to define a way of querying whether, intuitively, $G$ (and thus, the committee) “considers” $x$ as a better scoring-vector than $y$. We will assume we can obtain information about this ordering (by interrogating the committee) and use this to enrich our knowledge of $G$.
@@ -136,12 +146,13 @@ Consider a binary relation $\prefsv$ over the scoring-vectors. Define $\sprefsv$
 
 Let $\profs[xy] = \set{\profshort \suchthat \{x, y\} \subseteq χ_{\profshort}(\allalts)}$ denote the set of all complete profiles that contain the scoring-vectors $x$ and $y$. Given a rule $F$, $x \in \bigcup F(\profs[xy])$ holds whenever $F(\profshort)$ selects $x$ as one of the winners for some complete profile $\profshort$ that contains $x$ and $y$.
 
-Our hypothesis is thus that $x \sprefsv y$ implies $y \notin \bigcup G(\profs[xy])$, that $\iprefsv$ implies $\forall \profshort \in \profs[xy]: x \in G(\profshort) ⇔ y \in G(\profshort)$, and that $\prefsv = \sprefsv ∪ \iprefsv$ is a preorder. (\Cref{sec:defSprefsv} analyzes alternative hypotheses.)
+Our hypothesis is thus (H1) that $x \sprefsv y$ implies $y \notin \bigcup G(\profs[xy])$, (H2) that $x \iprefsv y$ implies $\forall \profshort \in \profs[xy]: x \in G(\profshort) ⇔ y \in G(\profshort)$, and (H3) that $\prefsv = \sprefsv ∪ \iprefsv$ is a preorder. (\Cref{sec:defSprefsv} analyzes alternative hypotheses.)
 
 The transitivity of $\prefsv$ makes it a useful basis for queries: a few questions can bring “free” information, by computing the transitive closure of our knowledge so far.
 
 Assume we are able to obtain a strict partial order (a transitive and asymmetric relation) $\psprefsv \subseteq \sprefsv$. Define our approximation of $G$, $F_{\psprefsv}$, as the rule that selects the maximal elements (according to $\psprefsv$) of the given complete profile: $x$ wins in $F_{\psprefsv}(\profshort)$ iff $x$ is in $\profshort$ and there is no $y$ in $\profshort$ such that $y \psprefsv x$. The rule $F_{\psprefsv}$ gives us information about the real rule $G$, in the sense that any real winner is among the winners selected by $F_{\psprefsv}$.
 \begin{fact}
+	\label{thm:approx}
 	Given $\psprefsv \subseteq \sprefsv$, $\forall \profshort: G(\profshort) \subseteq F_{\psprefsv}(\profshort)$.
 \end{fact}
 \begin{proof}
@@ -172,34 +183,66 @@ A rule $F$ is scoring-vector-based iff it can be described as maximizing a stric
 \section{Elicitation of the preference on the voting rule only}
 We assume we can observe $\sprefsv$ and $\iprefsv$: provided with a pair $x, y$, we can know whether $x \sprefsv y$, $y \sprefsv x$, $x \iprefsv y$, or none of those.
 
-We start by assuming that $\prefsv$ is a weak-order (a connected preorder), thus “none of those” does not happen under this assumption.
+We start by assuming that $\prefsv$ is a weak-order (a connected preorder), thus “none of those” does not happen under this assumption. This implies that $G$ is neutral.
+
+\begin{fact}
+	If $\prefsv$ is a weak-order, then $G$ is neutral.
+\end{fact}
+\begin{proof}
+	We show that $G = F_{\sprefsv}$, then, we show that $F_{>}$ is neutral for any strict partial order $>$ on the scoring-vectors. 
+	
+	From \cref{thm:approx}, $\forall \profshort: G(\profshort) \subseteq F_{\sprefsv}(\profshort)$. Because $\prefsv$ is complete, all scoring-vectors winning in $F_{\sprefsv}(\profshort)$ (all maximal elements of $\prefsv$) are equivalent from the point of view of $\prefsv$. Thus, by our hypothesis (H2), $G$ either selects none of them, or all. Because $\emptyset ≠ G(\profshort) \subseteq F_{\sprefsv}(\profshort)$, $G$ selects at least one of them, thus, it selects all of them, and $G(\profshort) = F_{\sprefsv}(\profshort)$.
+	
+	Given any strict partial order $>$ on the scoring-vectors (thus, including $\prefsv$), $F_>$ uses no information pertaining to the identity of the alternatives, thus, is neutral.
+\end{proof}
 
 We call a committee query a question in the form of a pair of scoring-vectors, to which we obtain as answer: $x \sprefsv y$, $y \sprefsv x$, or $x \iprefsv y$. We keep track of those answers by way of building iteratively a preorder $\pprefsv$.
 
-We assume here that $\prof$ is not defined: we are interested in fully eliciting the preference on the voting rule of the committee, meaning, the function $G$, so that it can then be applied to any profile when they later arise.
+We assume here that $\prof$ is not defined: we are interested in eliciting the preference on the voting rule of the committee, meaning, the function $G$, so that it can then be applied to any profile when known.
 
-We consider given a probability distribution $P^r$ over the complete profiles: $\sum_{\profshort \in \allprofs} \probprofs(\profshort) = 1$.
+We consider a probability distribution $P^r$ over the complete profiles is known: $\sum_{\profshort \in \allprofs} \probprofs(\profshort) = 1$.
 
 Define the badness $V_{\pprefsv}$ of our current approximation $\pprefsv$ as follows: $V_{\pprefsv} = \sum_{\profshort \in \allprofs} \probprofs(\profshort) \card{F_{\psprefsv}(\profshort)}$.
 
-As further simplification hypotheses, we assume for now an impartial culture, thus all profiles are equally likely ($\probprofs$ is uniform); and we consider that the real rule $G$ is resolute, thus $\card{G(\profshort)}=1, \forall \profshort \in \allprofs$. These simplifications imply that $V_{\pprefsv} = \frac{1}{\card{\allprofs}} \card{F_{\psprefsv}(\profshort)}$ and that $V_{\pprefsv} = 1 ⇔ F_{\psprefsv} = G$.
+As further simplification hypotheses, we assume for now an impartial culture, thus all profiles are equally likely ($\probprofs$ is uniform), thus, $V_{\pprefsv} = \frac{1}{\card{\allprofs}} \card{F_{\psprefsv}(\profshort)}$. %and we consider that the real rule $G$ is resolute, thus $\card{G(\profshort)}=1, \forall \profshort \in \allprofs$, thus, $V_{\pprefsv} = 1 ⇔ F_{\psprefsv} = G$.
 
 Define $\probsvs_{\pprefsv}(x \sprefsv y)$ as our estimation, given our knowledge $\pprefsv$, of the probability that the committee answers $x \sprefsv y$ (this depends on some probability estimate over the set of possible weak-orders over scoring-vectors, probability estimate which in turn depends on $\pprefsv$, but which we do not need to make explicit for now). We define similarly $\probsvs_{\pprefsv}(x \iprefsv y)$.
 
 We define the badness of asking a question of comparison of $x$ and $y$ as $b(x, y) = \probsvs_{\pprefsv}(x \sprefsv y) V_{\pprefsv ∪ \{(x, y)\}} + \probsvs_{\pprefsv}(y \sprefsv x) V_{\pprefsv ∪ \{(y, x)\}} + \probsvs_{\pprefsv}(x \iprefsv y) V_{\pprefsv ∪ \{(x, y), (y, x)\}}$. The lower, the better.
 
-Assume $N ≠ \emptyset$, and call an anonymous profile a profile that does not include the identity of the alternatives. This amounts to include only $n-1$ voters in the profile: the voter $i_0 \in N$.
+We would like to find out how to compute $V_{\pprefsv}$, without having to iterate on the neutral profiles: when $m=6, n=6$, $\card{\neutrprofs} = (6!)^5 > 10^{14}$.
 
-We need to find out how to compute $V_{\pprefsv}$, without having to iterate on the anonymous profiles: when $m=6, n=6$, $\card{\anonprofs} = (6!)^5 > 10^{14}$.
+Given two disjoint sets $B, C \subseteq \allsvs$ such that all scoring-vectors from $B$ are pairwise compatible, let $\#_{B, ¬C}$ denote the number of neutral profiles that contain all scoring-vectors from $B$ and no scoring-vectors from $C$.
+Note that if some scoring-vector in $C$ is not pairwise compatible with some scoring-vector in $B$, then that scoring-vector from $C$ can be removed from $C$ without changing the number of profiles.
+Define $\#_B = \#_{B, ¬\emptyset}$.
+Define $b = \card{B}, c = \card{C}$. 
 
-Given two disjoint sets $B, C \subseteq \allsvs$ of compatible scoring-vectors, let $\#_{B, ¬C}$ denote the number of anonymous profiles that contain all scoring-vectors from $B$ and no scoring-vectors from $C$. Define $b = \card{B}, c = \card{C}$. 
-The results depend only on the cardinals of $B$ and $C$, thus we can write it using these numbers. 
+Counting all profiles and not just the compatible ones, we obtain: $\#_B^\text{all} = \binom{m^n - b}{m-b}$. This is because we have to choose $m-b$ scoring-vectors to complete the profile (once the ones from $B$ have been fixed), and those have to be chosen from all the remaining possibilities; starting with a total of $m^n$ scoring-vectors.
 
-Observe that $\#_B = \#_{B, ¬\emptyset} = [(m-b)!]^{n-1}$. \commentOC{Previously we had (counting all profiles): $\binom{m^n - b}{m-b}$. I don’t remember how we got this but I doubt that’s correct.} 
+Observe that $\#_B = [(m-b)!]^{n-1}$.
 
-Also, $\#{b, ¬c} = \#_b − (\sum_{1 ≤ k ≤ c} \binom{c}{k} \#_{b+k, ¬(c-k)})$.
+Let $\powersetz{C}^\text{compat}$ denote the set of non-empty subsets of $C$ that contain only pairwise compatible scoring-vectors. 
+\begin{fact}
+	$\#_{B, ¬C} = \#_B − (\sum_{K \in \powersetz{C}^\text{compat}} \#_{B ∪ K, ¬(C \setminus K)})$.
+\end{fact}
+\begin{proof}
+	When counting all profiles containing $B$ (that is, $\#_B$), we’ve counted too many. We have to remove the ones that contain all scoring-vectors from $B$ and some elements from $C$, equivalently, we have to remove the ones that contain all scoring-vectors from $B$ and exactly the scoring-vectors in $K$ for some subset $K$ of $C$, and none others from $C$.
+\end{proof}
+Note that equivalently, assuming we start with $C$ containing only scoring-vectors that are pairwise compatible with each scoring-vector in $B$, we obtain $\#_{B, ¬C} = \#_B − (\sum_{K \in \powersetz{C}^\text{compat}} \#_{B ∪ K, ¬\mathcal{C}(C, K)})$, where $\mathcal{C}(C, K)$ denotes the scoring-vectors from $C$ that are pairwise compatible with each vector in $K$.
+
+\begin{fact}
+	When $B ∪ C$ contain only pairwise compatible scoring-vectors, $\#_{B, ¬C} = \#_b − (\sum_{1 ≤ k ≤ c} \binom{c}{k} \#_{b+k, ¬(c-k)}) = \#_b − (\sum_{0 ≤ d < c} \binom{c}{d} \#_{b+c-d, ¬d})$.
+\end{fact}
+\begin{proof}
+	The first equality follows from the previous fact, the last equality uses $d = c-k$.
+\end{proof}
+Observe that the number depends only on the cardinals of $B$ and $C$. 
+
+(?) Also, writing $\#_{B, ¬C}^m$ for the case where the number of alternatives is $m$, and assuming that $C$ contains only scoring-vectors that are pairwise compatible with each scoring-vector in $B$, $\#_{B, ¬C}^m = \#_{0, ¬C}^{m-b}$.
 
 \subsection{Draft}
+Consider $B ∪ C$ contains only pairwise compatible scoring-vectors. $\#_{0, ¬c}$: order the vectors in $C$ by those starting with the score $1$, then $2$, and so on (rename the scores if necessary). Choose among $(m^{n-1} - 1)$ to fix the first scoring-vector: because there’s $m$ figures to choose from for each voter except the first one, as the scoring-vector starts with one (to fix the ordering of s-vs in the profile), and then there’s the scoring-vector from $C$ that starts with one that we can’t choose, thus substracting one. Then choose among $(m-1)^{n-1}-1$ to fix the second one, and so on for $c$ times, then choose among $(m-x)^{n-1}$ because we don’t have to substract one any more. But this is incorrect because we could have chosen as first scoring-vector one that conflicts with members of $C$, which augments the remaining possibilities (no need to substract one).
+
 Let’s decompose the preorder $\pprefsv$ into equivalence classes, one per “level”, where the level 1 contains the maximal scoring-vectors of $\pprefsv$, the level 2 contains the next best scoring-vectors, and so on. Write $z$ the last level of $\pprefsv$. Write $\alpha(l)$ the number of scoring-vectors at level $l$, $\beta(l)$ the number of scoring-vectors that are better than those at level $l$, thus $\beta(l) = \sum_{1 ≤ k < l} \alpha(k)$. Now $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha(l)} k \#_{k, ¬(\alpha(l) - k + \beta(l))}$. Or, more likely, $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha(l)} \binom{\alpha(l)}{k} k \#_{k, ¬(\alpha(l) - k + \beta(l))}$. \emph{Except} this does not account for the cases where some of these rank-vectors are incompatible.
 
 \section{Simultaneous elicitation}
