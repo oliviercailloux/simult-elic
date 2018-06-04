@@ -196,7 +196,7 @@ We start by assuming that $\prefsv$ is a weak-order (a connected preorder), thus
 	Given any strict partial order $>$ on the scoring-vectors (thus, including $\prefsv$), $F_>$ uses no information pertaining to the identity of the alternatives, thus, is neutral.
 \end{proof}
 
-We call a committee query a question in the form of a pair of scoring-vectors, to which we obtain as answer: $x \sprefsv y$, $y \sprefsv x$, or $x \iprefsv y$. We keep track of those answers by way of building iteratively a preorder $\pprefsv$.
+We call a committee query a question in the form of a pair of scoring-vectors, to which we obtain as answer: $x \sprefsv y$, $y \sprefsv x$, or $x \iprefsv y$. We keep track of those answers by way of building iteratively a preorder $\pprefsv \subseteq \prefsv$.
 
 We assume here that $\prof$ is not defined: we are interested in eliciting the preference on the voting rule of the committee, meaning, the function $G$, so that it can then be applied to any profile when known.
 
@@ -216,13 +216,14 @@ Given two disjoint sets $B, C \subseteq \allsvs$ such that all scoring-vectors f
 Note that if some scoring-vector in $C$ is not pairwise compatible with some scoring-vector in $B$, then that scoring-vector from $C$ can be removed from $C$ without changing the number of profiles.
 Define $\#_B = \#_{B, ¬\emptyset}$.
 Define $b = \card{B}, c = \card{C}$. 
+Observe that $\#_B = [(m-b)!]^{n-1}$.
+When the number $\#_{B, ¬C}$ depends only on the cardinals of $B$ and $C$, we also write $\#_{b, ¬c}$; and similarly we also write $\#_b$ instead of $\#_B$.
 
 Counting all profiles and not just the compatible ones, we obtain: $\#_B^\text{all} = \binom{m^n - b}{m-b}$. This is because we have to choose $m-b$ scoring-vectors to complete the profile (once the ones from $B$ have been fixed), and those have to be chosen from all the remaining possibilities; starting with a total of $m^n$ scoring-vectors.
 
-Observe that $\#_B = [(m-b)!]^{n-1}$.
-
 Let $\powersetz{C}^\text{compat}$ denote the set of non-empty subsets of $C$ that contain only pairwise compatible scoring-vectors. 
 \begin{fact}
+	\label{thm:count}
 	$\#_{B, ¬C} = \#_B − (\sum_{K \in \powersetz{C}^\text{compat}} \#_{B ∪ K, ¬(C \setminus K)})$.
 \end{fact}
 \begin{proof}
@@ -234,16 +235,20 @@ Note that equivalently, assuming we start with $C$ containing only scoring-vecto
 	When $B ∪ C$ contain only pairwise compatible scoring-vectors, $\#_{B, ¬C} = \#_b − (\sum_{1 ≤ k ≤ c} \binom{c}{k} \#_{b+k, ¬(c-k)}) = \#_b − (\sum_{0 ≤ d < c} \binom{c}{d} \#_{b+c-d, ¬d})$.
 \end{fact}
 \begin{proof}
-	The first equality follows from the previous fact, the last equality uses $d = c-k$.
+	The first equality follows from \cref{thm:count}, the last equality uses $d = c-k$.
 \end{proof}
 Observe that the number depends only on the cardinals of $B$ and $C$. 
 
 (?) Also, writing $\#_{B, ¬C}^m$ for the case where the number of alternatives is $m$, and assuming that $C$ contains only scoring-vectors that are pairwise compatible with each scoring-vector in $B$, $\#_{B, ¬C}^m = \#_{0, ¬C}^{m-b}$.
 
 \subsection{Draft}
-Consider $B ∪ C$ contains only pairwise compatible scoring-vectors. $\#_{0, ¬c}$: order the vectors in $C$ by those starting with the score $1$, then $2$, and so on (rename the scores if necessary). Choose among $(m^{n-1} - 1)$ to fix the first scoring-vector: because there’s $m$ figures to choose from for each voter except the first one, as the scoring-vector starts with one (to fix the ordering of s-vs in the profile), and then there’s the scoring-vector from $C$ that starts with one that we can’t choose, thus substracting one. Then choose among $(m-1)^{n-1}-1$ to fix the second one, and so on for $c$ times, then choose among $(m-x)^{n-1}$ because we don’t have to substract one any more. But this is incorrect because we could have chosen as first scoring-vector one that conflicts with members of $C$, which augments the remaining possibilities (no need to substract one).
+Consider $B ∪ C$ contains only pairwise compatible scoring-vectors. $\#_{0, ¬c}$: order the vectors in $C$ by those starting with the score $1$, then $2$, and so on (rename the scores if necessary). Choose among $(m^{n-1} - 1)$ to fix the first scoring-vector: because there’s $m$ figures to choose from for each voter except the first one, as the scoring-vector starts with one (to fix the ordering of s-vs in the profile), and then there’s the scoring-vector from $C$ that starts with one that we can’t choose, thus substracting one. Then choose among $(m-1)^{n-1}-1$ to fix the second one, and so on for $c$ times, then choose among $(m-x)^{n-1}$ because we don’t have to substract one any more. But this is incorrect because we could have chosen as first scoring-vector one that conflicts with members of $C$, which augments the remaining possibilities (no need to substract one). However, the reasoning seems to work if $C$ has only one element (or only compatible elements).
 
-Let’s decompose the preorder $\pprefsv$ into equivalence classes, one per “level”, where the level 1 contains the maximal scoring-vectors of $\pprefsv$, the level 2 contains the next best scoring-vectors, and so on. Write $z$ the last level of $\pprefsv$. Write $\alpha(l)$ the number of scoring-vectors at level $l$, $\beta(l)$ the number of scoring-vectors that are better than those at level $l$, thus $\beta(l) = \sum_{1 ≤ k < l} \alpha(k)$. Now $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha(l)} k \#_{k, ¬(\alpha(l) - k + \beta(l))}$. Or, more likely, $V_{\pprefsv} = \sum_{1 ≤ l ≤ z}\sum_{1 ≤ k ≤ \alpha(l)} \binom{\alpha(l)}{k} k \#_{k, ¬(\alpha(l) - k + \beta(l))}$. \emph{Except} this does not account for the cases where some of these rank-vectors are incompatible.
+Let’s decompose the strict part $\psprefsv$ of the preorder $\pprefsv$ into one set per “level”, where the level 1 contains the maximal scoring-vectors of $\pprefsv$, the level 2 contains the next best scoring-vectors, and so on. Write $L_i$ the sets of scoring-vectors so defined, where $L_i$ contains the scoring-vectors at level $i$. 
+
+At level $L_i$, consider subset $K_i \subseteq L_i$. Exclude $L_j, j < i$. Consider incomparables to $K_i$, denoted by $c(K_i)$. Consider the incomparables at next level: $L_{i+1} ∩ c(K_i)$. Choose a subset that is present there: $K_{i + 1} \subseteq L_{i+1} ∩ c(K_i)$. Then choose a subset $K_{i + 2} \subseteq L_{i + 2} ∩ c(K_i) ∩ c(K_{i + 1})$. Finally, count as number of winners: $(\sum_{i ≤ l} k_l) \#_{\bigcup_{i ≤ l} K_i, ¬(\bigcup_{j < i} L_j ∪ \bigcup_{i ≤ l}L_l \setminus K_l)}$. (Equivalently, probably, count those that include $K_l$ and only vectors less good than $K_l$.)
+
+Note also that a priori (using only PD and anonymity), the scoring-vectors are partitioned into levels as they are partitioned by their sum of scores. (?)
 
 \section{Simultaneous elicitation}
 We call an individual query a question in the form of a pair of alternatives and a voter $i \in N$. We assume the answer is true, thus, conforms to the real relation $\pref_i$. We keep track of those answers by building iteratively a set of relations $\pprof$.
