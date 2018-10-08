@@ -36,25 +36,25 @@ We assume the preferences on the voting rule (of the committee) and over alterna
 We are interested in solving a given problem, meaning, finding (or getting close to) the set of winning alternatives, given a set of alternatives, a committee and a set of individuals with (well-defined but unknown) preferences. As a bonus however, we also obtain some reusable information about the voting rules the committee appreciates, which might be useful if the procedure has to be applied repeatedly with the same committee.
 
 Here are some notations. In those notations, the relations in bold suffixed with the letter \textbf{r} indicate the “real” relations, which we want to distinguish from the approximations we will build (suffixed with the letter $p$ to indicate partial knowledge).
-\begin{description}[font=\normalfont, leftmargin=!, labelwidth=\widthof{$F: \allprofs \rightarrow \powersetz{\alts}$}]
+\begin{description}[font=\normalfont, leftmargin=!, labelwidth=\widthof{$F: \allprofs \rightarrow \powersetz{\allalts}$}]
 	\item[$N ≠ \emptyset$] the (finite) set of voters
-	\item[$\alts$] the (finite) set of alternatives, $\card{\alts} = m$
-	\item[$\linors \subseteq \powerset{\alts × \alts}$] the linear orders (connected, transitive, asymmetric) on $\alts$
-	\item[$\pors \subseteq \powerset{\alts × \alts}$] the partial orders (transitive, asymmetric) on $\alts$
+	\item[$\allalts$] the (finite) set of alternatives, $\card{\allalts} = m$
+	\item[$\linors \subseteq \powerset{\allalts × \allalts}$] the linear orders (connected, transitive, asymmetric) on $\allalts$
+	\item[$\pors \subseteq \powerset{\allalts × \allalts}$] the partial orders (transitive, asymmetric) on $\allalts$
 	\item[$\pref_i \in \linors$] the preference of voter $i$ (called a complete preference)
 	\item[$\ppref_i \in \pors$] a partial preference associated to $i$, representing our knowledge of $\pref_i$
 	\item[$\prof = \profshort$] a profile of complete preferences, called a complete profile
 	\item[$\pprof = \pprofshort$] a profile of partial preferences, called a partial profile
 	\item[$\allprofs$] the set of all complete profiles
 	\item[$\allpprofs$] the set of all partial profiles
-	\item[$\powersetz{\alts}$] the set of all subsets of $\alts$ minus the emptyset
-	\item[$F: \allprofs \rightarrow \powersetz{\alts}$] a voting rule (associates each complete profile to a non-empty subset of winning alternatives)
+	\item[$\powersetz{\allalts}$] the set of all subsets of $\allalts$ minus the emptyset
+	\item[$F: \allprofs \rightarrow \powersetz{\allalts}$] a voting rule (associates each complete profile to a non-empty subset of winning alternatives)
 \end{description}
 
 Throughout the article we consider defined a voting rule $G$ that is used to specify the preferences on the voting rule of the committee: given a complete profile $\prof$, the committee will select a winner among $G(\prof)$ (the tie-breaking being done in a way not described by $G$). We consider the committee is able to express some of its preferences under the form of constraints on $G$, such as: if $G$ selects such alternative given such profile, then it may not select such alternative given such profile.
 When talking about some generic voting rule we use the letter $F$. 
 
-We can extend the domain of a voting rule to all partial profiles instead of only complete profiles. Given a rule $F$, define the robust equivalent rule as $F^\text{robust}: \allpprofs → \powersetz{\alts}$ which selects all possible winners given the partial profile, thus, an alternative is in $F^\text{robust}(\pprof)$ if there exists a complete profile $\prof$ that is a completion of $\pprof$ (meaning that for each $i$, $\pref_i$ is a completion of $\ppref_i$) for which $F(\prof)$ selects that alternative.
+We can extend the domain of a voting rule to all partial profiles instead of only complete profiles. Given a rule $F$, define the robust equivalent rule as $F^\text{robust}: \allpprofs → \powersetz{\allalts}$ which selects all possible winners given the partial profile, thus, an alternative is in $F^\text{robust}(\pprof)$ if there exists a complete profile $\prof$ that is a completion of $\pprof$ (meaning that for each $i$, $\pref_i$ is a completion of $\ppref_i$) for which $F(\prof)$ selects that alternative.
 
 \subsection{Scoring-vectors}
 Define a scoring-vector $x$ as an element of $\allsvs$, a mapping of voters to scores, where a score is an integer in $\intvl{0, m-1}$. (This notation designates intervals in the natural numbers throughout this article.) As $m$ is less than $10$ in our examples, we write our examples of scoring-vector as concatenated numbers, for example $43$ denotes a scoring-vector mapping the first voter to score $4$ and the second voter to score $3$.
@@ -142,13 +142,13 @@ When a voting rule $F$ is neutral, it may be considered as selecting winning sco
 \section{Querying the preference on the voting rule through scoring-vectors}
 We now want to define a way of querying whether, intuitively, $G$ (and thus, the committee) “considers” $x$ as a better scoring-vector than $y$. We will assume we can obtain information about this ordering (by interrogating the committee) and use this to enrich our knowledge of $G$.
 
-Consider a binary relation $\prefsv$ over the scoring-vectors. Define $\sprefsv$ as its asymmetric part and $\iprefsv$ as its symmetric part. We ask queries of the form $x \prefsv y$, and we assume that the answers of the committee to those queries satisfy the following properties. First, when the committee tells us that $x \sprefsv y$, it implies that whenever both $x$ and $y$ are present in a profile $\profshort$, $y$ does not win in $G(\profshort)$. Second, when the committee tells us that $x \iprefsv y$, it implies that $x$ is selected by $G(\profshort)$ whenever $y$ is selected by $G(\profshort)$, for all profiles $(\profshort)$ where both $x$ and $y$ are present. Third, $\prefsv$ is a preorder (a reflexive and transitive binary relation).
+Consider a binary relation $\prefsv$ over the scoring-vectors. Define $\sprefsv$ as its asymmetric part and $\iprefsv$ as its symmetric part. We ask queries of the form ($x \prefsv y$)?, and we assume that the answers of the committee to those queries satisfy the following properties. First, when the committee tells us that $x \sprefsv y$, it implies that whenever both $x$ and $y$ are present in a profile $\profshort$, $y$ does not win in $G(\profshort)$. Second, when the committee tells us that $x \iprefsv y$, it implies that $x$ is selected by $G(\profshort)$ whenever $y$ is selected by $G(\profshort)$, for all profiles $(\profshort)$ where both $x$ and $y$ are present. Third, $\prefsv$ is a preorder (a reflexive and transitive binary relation).
 
 Let $\profs[xy] = \set{\profshort \suchthat \{x, y\} \subseteq χ_{\profshort}(\allalts)}$ denote the set of all complete profiles that contain the scoring-vectors $x$ and $y$. Given a rule $F$, $x \in \bigcup F(\profs[xy])$ holds whenever $F(\profshort)$ selects $x$ as one of the winners for some complete profile $\profshort$ that contains $x$ and $y$.
 
 Our hypothesis is thus (H1) that $x \sprefsv y$ implies $y \notin \bigcup G(\profs[xy])$, (H2) that $x \iprefsv y$ implies $\forall \profshort \in \profs[xy]: x \in G(\profshort) ⇔ y \in G(\profshort)$, and (H3) that $\prefsv = \sprefsv ∪ \iprefsv$ is a preorder. (\Cref{sec:defSprefsv} analyzes alternative hypotheses.)
 
-The transitivity of $\prefsv$ makes it a useful basis for queries: a few questions can bring “free” information, by computing the transitive closure of our knowledge so far.
+The transitivity of $\prefsv$ makes it a useful basis for queries: a few questions can bring “free” information, by computing the transitive closure of our knowledge so far.%TODO fact that any rule admits a relation, thus no constraints.
 
 Assume we are able to obtain a strict partial order (a transitive and asymmetric relation) $\psprefsv \subseteq \sprefsv$. Define our approximation of $G$, $F_{\psprefsv}$, as the rule that selects the maximal elements (according to $\psprefsv$) of the given complete profile: $x$ wins in $F_{\psprefsv}(\profshort)$ iff $x$ is in $\profshort$ and there is no $y$ in $\profshort$ such that $y \psprefsv x$. The rule $F_{\psprefsv}$ gives us information about the real rule $G$, in the sense that any real winner is among the winners selected by $F_{\psprefsv}$.
 \begin{fact}
@@ -170,11 +170,11 @@ By collecting the answers to our queries in a preorder $\pprefsv$, we keep getti
 	
 	If from $x$ we can reach $y$ without using $R$, thus using only $S$, and because $S$ is symmetric, then from $y$ we can also reach $x$, thus $y S^T x$, hence $y \pprefsv x$ and $y \prefsv x$, thus $x \piprefsv y$ and $x \iprefsv y$. 
 
-	Otherwise, we must use $R$ to reach $y$. Let $x_1 \mathrel{R} x_2$ be on the way from $x$ to $y$. Thus, $x \pprefsv x_1 \mathrel{R} x_2 \pprefsv y$, thus $x \prefsv x_1 \sprefsv x_2 \prefsv y$, thus $¬(x_2 \prefsv x_1)$, thus $¬(y \prefsv x)$ (otherwise, there is a link from $x_2$ to $y$ to $x$ to $x_1$), thus $¬(y \pprefsv x)$, thus $x \psprefsv y$ and $x \sprefsv y$.
+	Otherwise, we must use $R$ to reach $y$. Let $x_1 \mathrel{R} x_2$ be on the way from $x$ to $y$. Thus, $x \pprefsv x_1 \mathrel{R} x_2 \pprefsv y$, thus $x \prefsv x_1 \sprefsv x_2 \prefsv y$, thus $¬(x_2 \prefsv x_1)$, thus $¬(y \prefsv x)$ (otherwise, there is a link from $x_2$ to $y$ to $x$ to $x_1$), thus $¬(y \pprefsv x)$, thus $x \psprefsv y$ and $x \sprefsv y$.%TODO what does there is a link mean?
 \end{proof}
 
 \section{Characterisation of scoring-vector rules}
-A rule $F$ is scoring-vector-based iff it can be described as maximizing a strict partial order over scoring-vectors, or formally, iff for some strict partial order $\sprefsv$ over $\allsvs$, $F = F_{\sprefsv}$. A sub-class of this class is the class of weak-order based rules, corresponding to the case where $\sprefsv$ is a connected relation (thus, orders any two different scoring-vectors).
+A rule $F$ is scoring-vector-based iff it can be described as maximizing a strict partial order over scoring-vectors, or formally, iff for some strict partial order $\psprefsv$ over $\allsvs$, $F = F_{\psprefsv}$. A sub-class of this class is the class of weak-order based rules, corresponding to the case where $\psprefsv$ is a connected relation (thus, orders any two different scoring-vectors).
 
 \citet{cailloux_eliciting_2014} gave some preliminary analysis of those classes of rules.
 
@@ -204,7 +204,7 @@ We consider a probability distribution $P^r$ over the complete profiles is known
 
 Define the badness $V_{\pprefsv}$ of our current approximation $\pprefsv$ as follows: $V_{\pprefsv} = \sum_{\profshort \in \allprofs} \probprofs(\profshort) \card{F_{\psprefsv}(\profshort)}$.
 
-As further simplification hypotheses, we assume for now an impartial culture, thus all profiles are equally likely ($\probprofs$ is uniform), thus, $V_{\pprefsv} = \frac{1}{\card{\allprofs}} \card{F_{\psprefsv}(\profshort)}$. %and we consider that the real rule $G$ is resolute, thus $\card{G(\profshort)}=1, \forall \profshort \in \allprofs$, thus, $V_{\pprefsv} = 1 ⇔ F_{\psprefsv} = G$.
+As further simplification hypotheses, we assume for now an impartial culture, thus all profiles are equally likely ($\probprofs$ is uniform), thus, $V_{\pprefsv} = \frac{1}{\card{\allprofs}} \sum_{\profshort \in \allprofs} \card{F_{\psprefsv}(\profshort)}$. %and we consider that the real rule $G$ is resolute, thus $\card{G(\profshort)}=1, \forall \profshort \in \allprofs$, thus, $V_{\pprefsv} = 1 ⇔ F_{\psprefsv} = G$.
 
 Define $\probsvs_{\pprefsv}(x \sprefsv y)$ as our estimation, given our knowledge $\pprefsv$, of the probability that the committee answers $x \sprefsv y$ (this depends on some probability estimate over the set of possible weak-orders over scoring-vectors, probability estimate which in turn depends on $\pprefsv$, but which we do not need to make explicit for now). We define similarly $\probsvs_{\pprefsv}(x \iprefsv y)$.
 
@@ -246,7 +246,7 @@ Consider $B ∪ C$ contains only pairwise compatible scoring-vectors. $\#_{0, ¬
 
 Let’s decompose the strict part $\psprefsv$ of the preorder $\pprefsv$ into one set per “level”, where the level 1 contains the maximal scoring-vectors of $\pprefsv$, the level 2 contains the next best scoring-vectors, and so on. Write $L_i$ the sets of scoring-vectors so defined, where $L_i$ contains the scoring-vectors at level $i$. 
 
-At level $L_i$, consider subset $K_i \subseteq L_i$. Exclude $L_j, j < i$. Consider incomparables to $K_i$, denoted by $c(K_i)$. Consider the incomparables at next level: $L_{i+1} ∩ c(K_i)$. Choose a subset that is present there: $K_{i + 1} \subseteq L_{i+1} ∩ c(K_i)$. Then choose a subset $K_{i + 2} \subseteq L_{i + 2} ∩ c(K_i) ∩ c(K_{i + 1})$. Finally, count as number of winners: $(\sum_{i ≤ l} k_l) \#_{\bigcup_{i ≤ l} K_i, ¬(\bigcup_{j < i} L_j ∪ \bigcup_{i ≤ l}L_l \setminus K_l)}$. (Equivalently, probably, count those that include $K_l$ and only vectors less good than $K_l$.)
+At level $L_i$, consider subset $K_i \subseteq L_i$. Exclude $L_j, j < i$. Consider incomparables to $K_i$, denoted by $c(K_i)$. Consider the incomparables at next level: $L_{i+1} ∩ c(K_i)$. Choose a subset that is present there: $K_{i + 1} \subseteq L_{i+1} ∩ c(K_i)$. Then choose a subset $K_{i + 2} \subseteq L_{i + 2} ∩ c(K_i) ∩ c(K_{i + 1})$. Finally, count as number of winners: $(\sum_{i ≤ l} k_l) \#_{\bigcup_{i ≤ l} K_i, ¬(\bigcup_{j < i} L_j ∪ \bigcup_{i ≤ l}L_l \setminus K_l)}$. (Equivalently, probably, count those that include $K_l$ and only vectors less good than $K_l$.) (The formula seems incorrect!)
 
 Note also that a priori (using only PD and anonymity), the scoring-vectors are partitioned into levels as they are partitioned by their sum of scores. (?)
 
